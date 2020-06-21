@@ -155,14 +155,14 @@ class Client extends Connection{
     $ps->bindParam(':addrs', $addrs, PDO::PARAM_STR);
     $ps->bindParam(':id', $client_id, PDO::PARAM_INT);
     $rs = $ps->execute();
+    parent::clearConnection();
+    
     $ms = $ps->errorInfo();
     if ($ms[1]) {
       getMessageCodeError($ms);
-      parent::clearConnection();
       return;
     }
 
-    parent::clearConnection();
     // ENVIA MENSAJE EN CASO DE SE ACTUALIZA O NO LOS DATOS.
     $rs ? printResJson(200, 'Actualizacion de datos exitosa.')
         : printResJson(500, 'Ha ocurrido');
