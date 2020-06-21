@@ -1,0 +1,10 @@
+body {
+  background-color: #f2f2f2;
+  height: 100vh;
+}
+
+/* CENTRAR DANDO EL ALTO DEL VIEPORT */
+.row,
+#app .container {
+  height: inherit;
+}
