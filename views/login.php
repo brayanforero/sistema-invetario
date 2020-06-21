@@ -7,7 +7,7 @@
         <div class="col-md-8 col-lg-5">
           <form  @submit.prevent="sendData" class="card rounded">
             <div class="card-header text-center">
-              <span class=" h2">Ingreso al Sistema</span>
+              <span class="h1">Acceso al Sistema</span>
             </div>
             <div class="card-body">
               <div class="form-group">
@@ -33,7 +33,7 @@
         </div>
         <!-- TITULO DEL SISTEMA -->
         <div class="col-md-7 d-none d-lg-block p-5 bg-dark text-center text-white rounded">
-          <p class="display-3">Inventario de Productos</p>
+          <p class="display-2">Inventario de Productos</p>
         </div>
       </div>
     </div>

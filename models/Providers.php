@@ -57,7 +57,8 @@ class Provider extends Connection{
     parent::getConnection();
     $ps = $this->link->prepare("SELECT 
       P.identification AS doc, P.fullname AS name,P.email,
-      P.phone_number , P.address, U.fullname AS user
+      P.phone_number , P.address, P.date_created, P.last_date_update,
+      U.fullname AS user
       FROM providers AS P, users_system AS U 
       WHERE P.id_user = U.id_user  AND P.state = 1
     ");
@@ -88,7 +89,8 @@ class Provider extends Connection{
     parent::getConnection();
     $ps = $this->link->prepare("SELECT 
       P.identification AS doc, P.fullname AS name,P.email,
-      P.phone_number , P.address, U.fullname AS user
+      P.phone_number , P.address,P.date_created, P.last_date_update,
+      U.fullname AS user
       FROM providers AS P, users_system AS U 
       WHERE P.id_user = U.id_user  AND P.state = 1 AND P.identification = :doc
     ");

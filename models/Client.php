@@ -58,7 +58,8 @@ class Client extends Connection{
     parent::getConnection();
     $ps = $this->link->prepare("SELECT 
       C.identification AS doc, C.fullname AS name,C.email,
-      C.phone_number , C.address, U.fullname AS user
+      C.phone_number , C.address,C.date_created, C.last_date_update,
+      U.fullname AS user
       FROM clients AS C, users_system AS U 
       WHERE C.id_user = U.id_user  AND C.state = 1
     ");
@@ -86,7 +87,7 @@ class Client extends Connection{
     parent::getConnection();
     $ps = $this->link->prepare("SELECT 
       C.identification AS doc, C.fullname AS name,C.email,
-      C.phone_number , C.address, U.fullname AS user
+      C.phone_number , C.address, C.date_created, C.last_date_update,U.fullname AS user
       FROM clients AS C, users_system AS U 
       WHERE C.id_user = U.id_user  AND C.state = 1 AND C.identification = :doc
     ");
@@ -128,10 +129,7 @@ class Client extends Connection{
         : printResJson(404, 'Ha ocurrido');
   }
 
-  public function update( 
-    $identi, $fullname, $email,
-    $phone, $address, $id
-  ) {
+  public function update( $identi, $fullname, $email, $phone, $address, $id) {
     
     $client_id = $id;
     $doc = cleanString($identi);
