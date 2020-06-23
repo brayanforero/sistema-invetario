@@ -4,7 +4,7 @@ DROP DATABASE IF EXISTS inventario_francisco;
 -- CREA LA BASE DE DATOS SI NO EXISTE;
 CREATE DATABASE IF NOT EXISTS inventario_francisco CHARACTER SET = utf8;
 
--- SE USA LA BASE DE DATOS PARA PODER MANIPULARLA
+-- SE USA LA BASE DE DATOS PARA PODER MANIPULAR LA BASE DE DATOS
 USE inventario_francisco;
 
 -- TABLAS NO DEPENDIENTES
@@ -143,7 +143,8 @@ DROP TABLE IF EXISTS details_sales;
 CREATE TABLE IF NOT EXISTS details_sales (
 	id_sale INT UNSIGNED NOT NULL,
     id_product INT UNSIGNED NOT NULL,
-	sale_price DECIMAL(7,2) NOT NULL
+	sale_price DECIMAL(7,2) NOT NULL,
+    count INT UNSIGNED NOT NULL
 );
 
 ALTER TABLE details_sales ADD CONSTRAINT fk_details_sales_providers FOREIGN KEY (id_sale) 
@@ -158,8 +159,7 @@ ALTER TABLE details_sales ADD CONSTRAINT fk_details_sales_products FOREIGN KEY (
 -- ----------------------------------------------------------------------
 
 
--- PRUEBAS
-desc clients;
+
 
 
 
