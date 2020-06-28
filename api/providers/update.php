@@ -2,15 +2,14 @@
 require_once '../../models/Providers.php';
 if ($_POST) {
 
-  $doc = $_POST['documento'];
-  $name = $_POST['name'];
+  $doc = $_POST['doc_provider'];
+  $new_name = $_POST['new_name'];
   $email = $_POST['email'];
   $phone = $_POST['phone'];
   $addr = $_POST['addr'];
-  $provider = $_POST['id'];
-
+  $prv_id = $_POST['prv_id'];
   $provider = new Provider;
-  $provider->update($doc, $name, $email, $phone, $addr, $provider);
+  $provider->update($doc, $new_name, $email, $phone, $addr, $prv_id);
   return;
 }
 
