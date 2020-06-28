@@ -3,33 +3,24 @@ require_once '../../config/Connection.php';
 require_once '../../utilities/validate_string.php';
 require_once '../../utilities/print_response.php';
 
-class Client extends Connection{
-  
-  private $id_client;
-  private $user;
-  private $identification;
-  private $fullname;
-  private $email;
-  private $phone_number;
-  private $address;
-  private $state;
-  private $date_created;
-  private $las_date_updated;
+class Client extends Connection
+{
 
-  public function __construct(){
-  
+  public function __construct()
+  {
   }
 
-  public function new( $identi, $fullname, $email,$phone, $address, $user) {
-    
+  public function new($identi, $fullname, $email, $phone, $address, $user)
+  {
+
     $user_id = $user;
     $doc = cleanString($identi);
     $fname = cleanString($fullname);
-    $mail =cleanStringEmail($email);
+    $mail = cleanStringEmail($email);
     $n_phone = cleanString($phone);
     $addrs = cleanString($address);
 
-   
+
     parent::getConnection();
     $ps = $this->link->prepare("INSERT INTO  clients 
       SET id_user = :user, identification = :doc, fullname = :fname, email = :mail,
@@ -50,11 +41,12 @@ class Client extends Connection{
 
     parent::clearConnection();
     // ENVIA MENSAJE EN CASO DE SE GUARDE O NO LOS DATOS.
-    $rs ? printResJson(200, 'Registro existoso') 
-        : printResJson(500, 'Ha ocurrido');
+    $rs ? printResJson(200, 'Registro existoso')
+      : printResJson(500, 'Ha ocurrido');
   }
 
-  public function get(){
+  public function get()
+  {
     parent::getConnection();
     $ps = $this->link->prepare("SELECT 
       C.identification AS doc, C.fullname AS name,C.email,
@@ -72,17 +64,18 @@ class Client extends Connection{
     }
     $rs = $ps->fetchAll(PDO::FETCH_ASSOC);
     // SI SE ENCUENTRAN DATOS SE ENVIAN A LA VISTA.
-    if($rs) {
+    if ($rs) {
       $data = [];
       $data = $rs;
-      printResJson('200','ok', $data);
+      printResJson('200', 'ok', $data);
       return;
     }
     // POR DEFECTO SI NO HAY DATOS GUARDADOS-
     printResJson('404',  'No existen datos registrados');
   }
 
-  public function getId($doc){
+  public function getId($doc)
+  {
     $d = cleanString($doc);
     parent::getConnection();
     $ps = $this->link->prepare("SELECT 
@@ -101,24 +94,25 @@ class Client extends Connection{
     }
     $rs = $ps->fetchAll(PDO::FETCH_ASSOC);
     // SI SE ENCUENTRAN DATOS SE ENVIAN A LA VISTA.
-    if($rs) {
+    if ($rs) {
       $data = [];
       $data = $rs;
-      printResJson('200','ok', $data);
+      printResJson('200', 'ok', $data);
       return;
     }
     // POR DEFECTO SI NO HAY DATOS GUARDADOS-
     printResJson('404',  'No existen datos registrados');
   }
 
-  public function delete($id){
+  public function delete($id)
+  {
     $user_id =  $id;
     parent::getConnection();
     $ps = $this->link->prepare("UPDATE clients SET state = false WHERE id_client = :id LIMIT 1");
     $ps->bindParam(':id', $user_id, PDO::PARAM_INT);
     $rs = $ps->execute();
     parent::clearConnection();
-    
+
     $ms = $ps->errorInfo();
     if ($ms[1]) {
       getMessageCodeError($ms);
@@ -126,19 +120,20 @@ class Client extends Connection{
     }
 
     $rs ? printResJson(200, 'Eliminacion exitosa')
-        : printResJson(404, 'Ha ocurrido');
+      : printResJson(404, 'Ha ocurrido');
   }
 
-  public function update( $identi, $fullname, $email, $phone, $address, $id) {
-    
+  public function update($identi, $fullname, $email, $phone, $address, $id)
+  {
+
     $client_id = $id;
     $doc = cleanString($identi);
     $fname = cleanString($fullname);
-    $mail =cleanStringEmail($email);
+    $mail = cleanStringEmail($email);
     $n_phone = cleanString($phone);
     $addrs = cleanString($address);
 
-   
+
     parent::getConnection();
     $ps = $this->link->prepare("UPDATE clients 
       SET identification = :doc, fullname = :fname, email = :mail,
@@ -154,7 +149,7 @@ class Client extends Connection{
     $ps->bindParam(':id', $client_id, PDO::PARAM_INT);
     $rs = $ps->execute();
     parent::clearConnection();
-    
+
     $ms = $ps->errorInfo();
     if ($ms[1]) {
       getMessageCodeError($ms);
@@ -163,7 +158,6 @@ class Client extends Connection{
 
     // ENVIA MENSAJE EN CASO DE SE ACTUALIZA O NO LOS DATOS.
     $rs ? printResJson(200, 'Actualizacion de datos exitosa.')
-        : printResJson(500, 'Ha ocurrido');
+      : printResJson(500, 'Ha ocurrido');
   }
 }
-

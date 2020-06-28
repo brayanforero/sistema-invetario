@@ -7,12 +7,6 @@ require_once '../../utilities/sessions.php';
 class User extends Connection
 {
 
-  private $id_user;
-  private $fullname;
-  private $usename;
-  private $password;
-  private $role;
-
   public function __construct()
   {
   }

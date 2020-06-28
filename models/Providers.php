@@ -6,17 +6,6 @@ require_once '../../utilities/print_response.php';
 class Provider extends Connection
 {
 
-  private $id_provider;
-  private $user;
-  private $identification;
-  private $fullname;
-  private $email;
-  private $phone_number;
-  private $address;
-  private $state;
-  private $date_created;
-  private $las_date_updated;
-
   public function __construct()
   {
   }

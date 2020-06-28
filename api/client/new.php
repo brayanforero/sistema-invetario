@@ -1,5 +1,20 @@
 <?php require_once '../../models/Client.php';
 
-$cliente = new Client;
-$cliente->new("v-26401959", "brayan forero", "bf@gmail.com",
-  "1234", "Av luis hurtado huguera", 1);
+if ($_POST) {
+
+  $doc = $_POST['doc'];
+  $name = $_POST['name'];
+  $email = $_POST['email'];
+  $phone = $_POST['phone'];
+  $addr = $_POST['addr'];
+  $addr = $_POST['addr'];
+  $id_user = $_POST['id_user'];
+
+  $client = new Client;
+  $client->new($doc, $name, $email, $phone, $addr, $id_user);
+}
+
+echo json_encode([
+  "status", 400,
+  "msg" => "No se recibieron datos validos"
+]);
