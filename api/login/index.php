@@ -6,7 +6,6 @@ if ($_POST) {
   $pass = $_POST['namePass'];
   $user = new User();
   $user->login($username, $pass);
-  
 } else {
 
   echo json_encode([

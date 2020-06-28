@@ -35,7 +35,9 @@ const app = new Vue({
         dataType: "json",
         success: function (res) {
           if (res.status >= 400) {
-            $(".card-footer .alert").html(`<strong>${res.msg}</strong>`);
+            $(".card-footer .alert").html(
+              `<strong>${res.msg}<i class="fas fa-times ml-2"></i></strong>`
+            );
             $(".card-footer ").addClass("d-block");
             setInterval(() => {
               $(".card-footer ").removeClass("d-block");
@@ -43,7 +45,9 @@ const app = new Vue({
             return;
           }
           $(".card-footer .alert")
-            .html(`<strong>${res.msg}</strong>`)
+            .html(
+              `<strong>${res.msg}<i class="fas fa-check ml-2"></i></strong>`
+            )
             .addClass("alert-success")
             .removeClass("alert-danger");
           $(".card-footer").addClass("d-block");
