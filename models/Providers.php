@@ -1,10 +1,11 @@
-<?php 
+<?php
 require_once '../../config/Connection.php';
 require_once '../../utilities/validate_string.php';
 require_once '../../utilities/print_response.php';
 
-class Provider extends Connection{
-  
+class Provider extends Connection
+{
+
   private $id_provider;
   private $user;
   private $identification;
@@ -16,15 +17,16 @@ class Provider extends Connection{
   private $date_created;
   private $las_date_updated;
 
-  public function __construct(){
-    // echo password_hash('1234', PASSWORD_BCRYPT);
+  public function __construct()
+  {
   }
 
-  public function new($identi, $fullname, $email, $phone, $address, $user) {
+  public function new($identi, $fullname, $email, $phone, $address, $user)
+  {
     $user_id = $user;
     $doc = cleanString($identi);
     $fname = cleanString($fullname);
-    $mail =cleanStringEmail($email);
+    $mail = cleanStringEmail($email);
     $n_phone = cleanString($phone);
     $addrs = cleanString($address);
 
@@ -40,7 +42,7 @@ class Provider extends Connection{
     $ps->bindParam(':addrs', $addrs, PDO::PARAM_STR);
     $rs = $ps->execute();
     parent::clearConnection();
-    
+
     $ms = $ps->errorInfo();
     if ($ms[1]) {
       getMessageCodeError($ms);
@@ -48,11 +50,12 @@ class Provider extends Connection{
     }
 
     // ENVIA MENSAJE EN CASO DE SE GUARDE O NO LOS DATOS.
-    $rs ? printResJson(200, 'Registro existoso') 
-        : printResJson(500, 'Ha ocurrido');
+    $rs ? printResJson(200, 'Registro existoso')
+      : printResJson(500, 'Ha ocurrido');
   }
 
-  public function get(){
+  public function get()
+  {
 
     parent::getConnection();
     $ps = $this->link->prepare("SELECT 
@@ -64,26 +67,27 @@ class Provider extends Connection{
     ");
     $ps->execute();
     parent::clearConnection();
-    
+
     $ms = $ps->errorInfo();
     if ($ms[1]) {
       getMessageCodeError($ms);
       return;
     }
-    
+
     $rs = $ps->fetchAll(PDO::FETCH_ASSOC);
     // SI SE ENCUENTRAN DATOS SE ENVIAN A LA VISTA.
-    if($rs) {
+    if ($rs) {
       $data = [];
       $data = $rs;
-      printResJson('200','ok', $data);
+      printResJson('200', 'ok', $data);
       return;
     }
     // POR DEFECTO SI NO HAY DATOS GUARDADOS-
     printResJson('404',  'No existen datos registrados');
   }
 
-  public function getId($doc){
+  public function getId($doc)
+  {
 
     $d = cleanString($doc);
     parent::getConnection();
@@ -97,31 +101,32 @@ class Provider extends Connection{
     $ps->bindParam(':doc', $d, PDO::PARAM_STR);
     $ps->execute();
     parent::clearConnection();
-    
+
     $ms = $ps->errorInfo();
     if ($ms[1]) {
       getMessageCodeError($ms);
       return;
     }
-    
+
     $rs = $ps->fetchAll(PDO::FETCH_ASSOC);
     // SI SE ENCUENTRAN DATOS SE ENVIAN A LA VISTA.
-    if($rs) {
+    if ($rs) {
       $data = [];
       $data = $rs;
-      printResJson('200','ok', $data);
+      printResJson('200', 'ok', $data);
       return;
     }
     // POR DEFECTO SI NO HAY DATOS GUARDADOS-
     printResJson('404',  'No existen datos registrados');
   }
 
-  public function update($identi, $fullname, $email,$phone, $address, $id) {
+  public function update($identi, $fullname, $email, $phone, $address, $id)
+  {
 
     $provider_id = $id;
     $doc = cleanString($identi);
     $fname = cleanString($fullname);
-    $mail =cleanStringEmail($email);
+    $mail = cleanStringEmail($email);
     $n_phone = cleanString($phone);
     $addrs = cleanString($address);
 
@@ -140,7 +145,7 @@ class Provider extends Connection{
     $ps->bindParam(':id', $provider_id, PDO::PARAM_INT);
     $rs = $ps->execute();
     parent::clearConnection();
-    
+
     $ms = $ps->errorInfo();
     if ($ms[1]) {
       getMessageCodeError($ms);
@@ -149,10 +154,11 @@ class Provider extends Connection{
 
     // ENVIA MENSAJE EN CASO DE SE ACTUALIZA O NO LOS DATOS.
     $rs ? printResJson(200, 'Actualizacion de datos exitosa.')
-        : printResJson(500, 'Ha ocurrido');
+      : printResJson(500, 'Ha ocurrido');
   }
 
-  public function delete($id) {
+  public function delete($id)
+  {
 
     $provider_id = $id;
     parent::getConnection();
@@ -162,7 +168,7 @@ class Provider extends Connection{
     $ps->bindParam(':id', $provider_id, PDO::PARAM_INT);
     $rs = $ps->execute();
     parent::clearConnection();
-    
+
     $ms = $ps->errorInfo();
     if ($ms[1]) {
       getMessageCodeError($ms);
@@ -171,7 +177,6 @@ class Provider extends Connection{
 
     // ENVIA MENSAJE EN CASO DE SE ACTUALIZA O NO LOS DATOS.
     $rs ? printResJson(200, 'Eliminacion exitosa.')
-        : printResJson(500, 'Ha ocurrido');
+      : printResJson(500, 'Ha ocurrido');
   }
-
 }
