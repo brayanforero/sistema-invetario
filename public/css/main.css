@@ -8,3 +8,12 @@ body {
 #app .container {
   height: inherit;
 }
+
+.w-20 {
+  width: 20%;
+}
+
+.trans {
+  transition: all 0.3s ease;
+  transition-delay: 0.2s;
+}

@@ -38,7 +38,8 @@
   </div>
 </div>
 
-<script src="/public/js/fontawesone.js" charset="utf-8"></script>
+<script src="/public/js/fontawesone.js"></script>
 <script src="/public/js/jquery.js"></script>
+<script src="/public/js/vue.js"></script>
 <script src="/public/js/main.js"></script>
 <?php include_once '../views/partials/footer.php' ?>
