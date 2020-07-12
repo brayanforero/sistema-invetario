@@ -33,7 +33,11 @@ const app = new Vue({
           namePass: this.namePass,
         },
         dataType: "json",
+        beforeSend: () => {
+          $("#formLogin button").text("Verifincando...");
+        },
         success: function (res) {
+          $("#formLogin button").text("Ingresar");
           if (res.status >= 400) {
             $(".card-footer .alert").html(
               `<strong>${res.msg}<i class="fas fa-times ml-2"></i></strong>`

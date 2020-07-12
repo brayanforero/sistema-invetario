@@ -1,9 +1,9 @@
 <?php
 require_once '../../models/Providers.php';
 
-if ($_POST) {
+if (isset($_POST)) {
 
-  $doc = $_POST['documento'];
+  $doc = $_POST['doc'];
   $name = $_POST['name'];
   $email = $_POST['email'];
   $phone = $_POST['phone'];
