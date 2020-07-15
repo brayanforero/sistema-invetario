@@ -34,7 +34,7 @@ const app = new Vue({
         },
         dataType: "json",
         beforeSend: () => {
-          $("#formLogin button").text("Verifincando...");
+          $("#formLogin button").text("Verificando...");
         },
         success: function (res) {
           $("#formLogin button").text("Ingresar");

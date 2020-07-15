@@ -47,7 +47,7 @@ class Provider extends Connection
   {
 
     parent::getConnection();
-    $ps = $this->link->prepare("SELECT 
+    $ps = $this->link->prepare("SELECT P.id_provider AS id,
       P.identification AS doc, P.fullname AS name,P.email,
       P.phone_number , P.address, P.date_created, P.last_date_update,
       U.fullname AS user
@@ -80,7 +80,7 @@ class Provider extends Connection
 
     $d = cleanString($doc);
     parent::getConnection();
-    $ps = $this->link->prepare("SELECT 
+    $ps = $this->link->prepare("SELECT P.id_provider AS id,
       P.identification AS doc, P.fullname AS name,P.email,
       P.phone_number , P.address,P.date_created, P.last_date_update,
       U.fullname AS user

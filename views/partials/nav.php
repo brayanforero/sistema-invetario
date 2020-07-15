@@ -17,15 +17,15 @@
         <a class="nav-link" href="/"> <i class="fas fa-search-dollar h5 m-0"></i> Ventas</a>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="itemProvedor" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle" href="#" id="itemProductos" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-truck-loading h5 m-0"></i> Almacen
         </a>
-        <!-- <div class="dropdown-menu" aria-labelledby="itemProvedor">
+        <div class="dropdown-menu" aria-labelledby="itemProductos">
+          <a class="dropdown-item" href="/views/register_product.php">Registrar Nuevo Producto</a>
+          <!-- <a class="dropdown-item" href="#">Registrar Categoria</a>
           <a class="dropdown-item" href="#">Lista de Productos</a>
-          <a class="dropdown-item" href="#">Lista de Categorias</a>
-          <a class="dropdown-item" href="#">Registrar Nuevo Producto</a>
-          <a class="dropdown-item" href="#">Registrar Categoria</a>
-        </div> -->
+          <a class="dropdown-item" href="#">Lista de Categorias</a> -->
+        </div>
       </li>
 
       <li class="nav-item dropdown">

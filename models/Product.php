@@ -9,24 +9,24 @@ class Product extends Connection
   {
   }
 
-  public function new($id_provider, $id_user, $brand, $name, $price_shoping, $price_sale)
+  public function new($id_provider, $id_user, $name, $count, $price_shoping, $price_sale)
   {
-    $provider = $id_provider;
     $user = $id_user;
-    $name_b = $brand;
-    $pr_name = $name;
+    $provider = $id_provider;
+    $name_p = $name;
+    $cont = $count;
     $pr_shop = $price_shoping;
     $pr_sa = $price_sale;
 
     parent::getConnection();
     $ps = $this->link->prepare("INSERT INTO products SET id_user = :user, id_provider = :provider,
-      brand = :brand, product_name = :name, shop_price = :shop, sale_price = :sale
+      product_name = :name,count = :con, shop_price = :shop, sale_price = :sale
     ");
 
     $ps->bindParam(":user", $user, PDO::PARAM_INT);
     $ps->bindParam(":provider", $provider, PDO::PARAM_INT);
-    $ps->bindParam(":brand", $name_b, PDO::PARAM_STR);
-    $ps->bindParam(":name", $pr_name, PDO::PARAM_STR);
+    $ps->bindParam(":name", $name_p, PDO::PARAM_STR);
+    $ps->bindParam(":con", $cont, PDO::PARAM_STR);
     $ps->bindParam(":shop", $pr_shop, PDO::PARAM_STR);
     $ps->bindParam(":sale", $pr_sa, PDO::PARAM_STR);
     $rs = $ps->execute();
@@ -108,7 +108,7 @@ class Product extends Connection
   {
     parent::getConnection();
     $ps = $this->link->prepare("SELECT 	prod.id_product, us.fullname AS user, prv.fullname AS provider,
-      prod.brand, prod.product_name, prod.shop_price, prod.sale_price
+      prod.product_name, prod.count, prod.shop_price, prod.sale_price
       FROM products AS prod, users_system AS us, providers AS prv
       WHERE prod.id_user = us.id_user AND prod.id_provider = prv.id_provider
     ");
@@ -120,7 +120,7 @@ class Product extends Connection
       return;
     }
 
-    $rs = $ps->fetch(PDO::FETCH_ASSOC);
+    $rs = $ps->fetchAll(PDO::FETCH_ASSOC);
     if ($rs) {
       $data = [];
       $data = $rs;
