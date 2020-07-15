@@ -11,7 +11,7 @@ USE inventario_francisco;
 
 DROP TABLE IF EXISTS users_system;
 CREATE TABLE IF NOT EXISTS users_system (
-	id_user SMALLINT UNSIGNED AUTO_INCREMENT,
+	id_user INT UNSIGNED AUTO_INCREMENT,
     identification VARCHAR(20) NOT NULL,
     fullname VARCHAR(100) NOT NULL,
     username VARCHAR(20) NOT NULL,
@@ -27,8 +27,8 @@ CREATE TABLE IF NOT EXISTS users_system (
 
 DROP TABLE IF EXISTS clients;
 CREATE TABLE IF NOT EXISTS clients (
-	id_client SMALLINT UNSIGNED AUTO_INCREMENT,
-    id_user SMALLINT UNSIGNED NOT NULL,
+	id_client INT UNSIGNED AUTO_INCREMENT,
+    id_user INT UNSIGNED NOT NULL,
     identification VARCHAR(20) NOT NULL,
     fullname VARCHAR(100) NOT NULL,
     email VARCHAR(100) DEFAULT 'NO ESPECIFICADO',
@@ -50,8 +50,8 @@ ALTER TABLE clients ADD CONSTRAINT fk_clients_users FOREIGN KEY (id_user)
 
 DROP TABLE IF EXISTS providers;
 CREATE TABLE IF NOT EXISTS providers (
-	id_provider SMALLINT UNSIGNED AUTO_INCREMENT,
-    id_user SMALLINT UNSIGNED NOT NULL,
+	id_provider INT UNSIGNED AUTO_INCREMENT,
+    id_user INT UNSIGNED NOT NULL,
     identification VARCHAR(20) NOT NULL,
     fullname VARCHAR(100) NOT NULL,
     email VARCHAR(100) DEFAULT 'NO ESPECIFICADO',
@@ -73,8 +73,8 @@ ALTER TABLE providers ADD CONSTRAINT fk_providers_users FOREIGN KEY (id_user)
 
 DROP TABLE IF EXISTS categories;
 CREATE TABLE IF NOT EXISTS categories(
-	id_category SMALLINT UNSIGNED AUTO_INCREMENT,
-    id_user SMALLINT UNSIGNED NOT NULL,
+	id_category INT UNSIGNED AUTO_INCREMENT,
+    id_user INT UNSIGNED NOT NULL,
     name_category VARCHAR(20) NOT NULL,
     state BOOLEAN DEFAULT TRUE,
     date_created TIMESTAMP DEFAULT current_timestamp,
@@ -92,8 +92,9 @@ ALTER TABLE categories ADD CONSTRAINT fk_categories_users FOREIGN KEY (id_user)
 DROP TABLE IF EXISTS products;
 CREATE TABLE IF NOT EXISTS products (
 	id_product INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    id_user SMALLINT UNSIGNED NOT NULL,
-    id_provider SMALLINT  UNSIGNED NOT NULL,
+    id_user INT UNSIGNED NOT NULL,
+    id_provider INT  UNSIGNED NOT NULL,
+    id_category INT  UNSIGNED NOT NULL,
     product_name VARCHAR(50) NOT NULL,
     count INT NOT NULL,
     shop_price DECIMAL(7,2) NOT NULL,
@@ -110,6 +111,10 @@ ALTER TABLE products ADD CONSTRAINT fk_products_users FOREIGN KEY (id_user)
 	REFERENCES users_system (id_user) 
     ON DELETE RESTRICT 
     ON UPDATE RESTRICT;
+ALTER TABLE products ADD CONSTRAINT fk_products_categories FOREIGN KEY (id_category) 
+	REFERENCES categories (id_category) 
+    ON DELETE RESTRICT 
+    ON UPDATE RESTRICT;
     
 ALTER TABLE products ADD CONSTRAINT fk_products_providers FOREIGN KEY (id_provider) 
 	REFERENCES providers (id_provider) 
@@ -120,8 +125,8 @@ ALTER TABLE products ADD CONSTRAINT fk_products_providers FOREIGN KEY (id_provid
 DROP TABLE IF EXISTS sales;
 CREATE TABLE IF NOT EXISTS sales(
 	id_sale INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    id_user SMALLINT UNSIGNED NOT NULL,
-    id_client SMALLINT UNSIGNED NOT NULL,
+    id_user INT UNSIGNED NOT NULL,
+    id_client INT UNSIGNED NOT NULL,
     mount_sale DECIMAL(7,2) NOT NULL,
     date_created TIMESTAMP DEFAULT current_timestamp,
     last_date_update TIMESTAMP DEFAULT current_timestamp,
