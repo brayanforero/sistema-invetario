@@ -22,9 +22,9 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="itemProductos">
           <a class="dropdown-item" href="/views/register_product.php">Registrar Nuevo Producto</a>
-          <!-- <a class="dropdown-item" href="#">Registrar Categoria</a>
-          <a class="dropdown-item" href="#">Lista de Productos</a>
-          <a class="dropdown-item" href="#">Lista de Categorias</a> -->
+          <!-- <a class="dropdown-item" href="#">Registrar Categoria</a> -->
+          <a class="dropdown-item" href="/views/listall_product.php">Lista de Productos</a>
+          <a class="dropdown-item" href="/views/listall_category.php">Lista de Categorias</a>
         </div>
       </li>
 

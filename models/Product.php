@@ -107,8 +107,8 @@ class Product extends Connection
   public function get()
   {
     parent::getConnection();
-    $ps = $this->link->prepare("SELECT 	prod.id_product, us.fullname AS user, prv.fullname AS provider,
-      prod.product_name, prod.count, prod.shop_price, prod.sale_price
+    $ps = $this->link->prepare("SELECT 	prod.id_product AS id, us.fullname AS user, prv.fullname AS provider,
+      prod.product_name AS name, prod.count AS stock, prod.shop_price AS p_shop, prod.sale_price AS p_sale
       FROM products AS prod, users_system AS us, providers AS prv
       WHERE prod.id_user = us.id_user AND prod.id_provider = prv.id_provider
     ");

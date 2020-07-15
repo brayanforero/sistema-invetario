@@ -25,7 +25,7 @@ include_once './partials/nav.php';
                 <input v-model="newProduct.count" placeholder="Cantidad a registrar" type="number" class="form-control">
               </div>
               <div class="form-group d-flex justify-content-center align-items-center">
-                <input v-model="newProduct.shopPrice" placeholder="Precio de compra" type="number" step="1" class="form-control">
+                <input v-model="newProduct.shopPrice" placeholder="Precio de compra" type="number" step="0.25" class="form-control">
 
               </div>
               <div class="form-group d-flex justify-content-center align-items-center">
@@ -68,7 +68,7 @@ require_once "./partials/scripts.php"
           provider: this.newProduct.provider,
           count: this.newProduct.count,
           price_sp: this.newProduct.shopPrice,
-          price_sl: this.newProduct.saleShop,
+          price_sl: this.newProduct.salePrice,
           id_user: parseInt(id.textContent)
         }
 
@@ -84,25 +84,24 @@ require_once "./partials/scripts.php"
           data: user,
           dataType: "json",
           beforeSend: () => {
-            $("#newProduct button").text("Procesando...")
+            $("#newClient button").text("Procesando...")
           },
           success: (res) => {
-            console.log(res);
-            // $("#newProduct button").text("Registrar")
-            // if (res.status >= 400) {
-            //   $("#alert").addClass("alert-danger").html(`<b>${res.msg}<b>`).removeClass("d-none")
+            $("#newClient button").text("Registrar")
+            if (res.status >= 400) {
+              $("#alert").addClass("alert-danger").html(`<b>${res.msg}<b>`).removeClass("d-none")
 
-            //   setInterval(() => {
-            //     $("#alert").addClass("d-none").html("").removeClass("alert-danger")
-            //   }, 5000);
-            //   return
-            // }
+              setInterval(() => {
+                $("#alert").addClass("d-none").html("").removeClass("alert-danger")
+              }, 5000);
+              return
+            }
 
-            // $("#alert").addClass("alert-success").html(`<b>${res.msg}<b>`).removeClass("d-none")
+            $("#alert").addClass("alert-success").html(`<b>${res.msg}<b>`).removeClass("d-none")
 
-            // setInterval(() => {
-            //   $("#alert").addClass("d-none").html("").removeClass("alert-success")
-            // }, 5000);
+            setInterval(() => {
+              $("#alert").addClass("d-none").html("").removeClass("alert-success")
+            }, 5000);
 
           },
           falied: (err) => {
