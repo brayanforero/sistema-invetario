@@ -16,9 +16,13 @@ include_once './partials/nav.php';
                 <input v-model="newProduct.name" placeholder="Nombre o descripcion del producto" type="text" class="form-control">
               </div>
               <div class="form-group">
-                <select class="form-control" aria-placeholder="Selecciona un provedor" v-model="newProduct.provider">
-
+                <select class="form-control" v-model="newProduct.provider">
                   <option v-for="p in providerOpt" :value="p.id">{{p.name}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <select class="form-control" v-model="newProduct.category">
+                  <option v-for="c in categoriesOpt" :value="c.id">{{c.name}}</option>
                 </select>
               </div>
               <div class="form-group d-flex justify-content-center align-items-center">
@@ -54,11 +58,13 @@ require_once "./partials/scripts.php"
       newProduct: {
         name: "",
         provider: "",
+        category: "",
         count: "",
         shopPrice: "",
         salePrice: ""
       },
-      providerOpt: []
+      providerOpt: [],
+      categoriesOpt: []
     },
     methods: {
 
@@ -66,6 +72,7 @@ require_once "./partials/scripts.php"
         const user = {
           name: this.newProduct.name,
           provider: this.newProduct.provider,
+          cat: this.newProduct.category,
           count: this.newProduct.count,
           price_sp: this.newProduct.shopPrice,
           price_sl: this.newProduct.salePrice,
@@ -74,6 +81,7 @@ require_once "./partials/scripts.php"
 
         this.newProduct.name = ""
         this.newProduct.provider = ""
+        this.newProduct.category = ""
         this.newProduct.count = ""
         this.newProduct.shopPrice = ""
         this.newProduct.salePrice = ""
@@ -84,10 +92,10 @@ require_once "./partials/scripts.php"
           data: user,
           dataType: "json",
           beforeSend: () => {
-            $("#newClient button").text("Procesando...")
+            $("#newProduct button").text("Procesando...")
           },
           success: (res) => {
-            $("#newClient button").text("Registrar")
+            $("#newProduct button").text("Registrar")
             if (res.status >= 400) {
               $("#alert").addClass("alert-danger").html(`<b>${res.msg}<b>`).removeClass("d-none")
 
@@ -117,11 +125,17 @@ require_once "./partials/scripts.php"
           url: "/api/providers/get.php"
         })
         if (res.data.status >= 400) {
-          this.existsData = false
-          this.msgRes = res.data.msg
+          alert("Lo sentimos, no hemos podido cargar los provedores")
           return
         }
         this.providerOpt = res.data.data
+        const cat = await axios({
+          method: "GET",
+          url: "/api/categories/get.php"
+        })
+
+        this.categoriesOpt = cat.data.data
+
       }
     },
     created() {
