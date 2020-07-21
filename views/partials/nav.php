@@ -7,39 +7,45 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ml-auto">
-      <!-- <li class="nav-item active">
-        <a class="nav-link" href="/">Resumen <span class="sr-only">(current)</span></a>
-      </li> -->
+      <!-- AGG VENTA -->
       <li class="nav-item">
-        <a class="nav-link text-info" href="/"> <i class="fas fa-cart-plus h5 m-0"></i> Nueva Venta!</a>
+        <a class="nav-link" href="/"> <i class="fas fa-cart-plus h5 m-0"></i> Nueva Venta!</a>
       </li>
+      <!-- VENTAS -->
       <li class="nav-item">
         <a class="nav-link" href="/"> <i class="fas fa-search-dollar h5 m-0"></i> Ventas</a>
       </li>
+      <!-- ALMACEN -->
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="itemProductos" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-truck-loading h5 m-0"></i> Almacen
         </a>
         <div class="dropdown-menu" aria-labelledby="itemProductos">
-          <a class="dropdown-item" href="/views/register_product.php">Registrar Nuevo Producto</a>
+          <?php if ($_SESSION['access_system']['role'] === 'ADMIN') : ?>
+            <a class="dropdown-item" href="/views/register_product.php">Registrar Nuevo Producto</a>
+          <?php endif; ?>
           <!-- <a class="dropdown-item" href="#">Registrar Categoria</a> -->
           <a class="dropdown-item" href="/views/listall_product.php">Lista de Productos</a>
-          <a class="dropdown-item" href="/views/listall_category.php">Lista de Categorias</a>
+          <?php if ($_SESSION['access_system']['role'] === 'ADMIN') : ?>
+            <a class="dropdown-item" href="/views/listall_category.php">Lista de Categorias</a>
+          <?php endif; ?>
         </div>
       </li>
+      <!-- PROVEDORES -->
+      <?php if ($_SESSION['access_system']['role'] === 'ADMIN') : ?>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="itemProvedor" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-truck h5 m-0"></i> Provedores
+          </a>
+          <div class="dropdown-menu" aria-labelledby="itemProvedor">
+            <a class="dropdown-item" href="/views/listall_provider.php">Lista Completa </i></a>
+            <a class="dropdown-item" href="/views/register_provider.php"> Registrar Nuevo</a>
+            <a class="dropdown-item" href="/views/search_provider.php">Consultar Información Detallada </a>
+          </div>
+        </li>
+      <?php endif; ?>
 
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="itemProvedor" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-truck h5 m-0"></i> Provedores
-        </a>
-        <div class="dropdown-menu" aria-labelledby="itemProvedor">
-          <a class="dropdown-item" href="/views/listall_provider.php">Lista Completa </i></a>
-          <a class="dropdown-item" href="/views/register_provider.php"> Registrar Nuevo</a>
-          <a class="dropdown-item" href="/views/search_provider.php">Consultar Información Detallada </a>
-        </div>
-      </li>
-
-
+      <!-- CLIENTES -->
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="itemCliente" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class="fas fa-users h5 m-0"></i> Clientes
@@ -47,11 +53,20 @@
         <div class="dropdown-menu" aria-labelledby="itemCliente">
           <a class="dropdown-item" href="/views/listall_client.php">Lista Completa </i></a>
           <a class="dropdown-item" href="/views/register_client.php"> Registrar Nuevo</a>
-          <a class="dropdown-item" href="/views/search_client.php">Consultar Información Detallada </a>
+          <?php if ($_SESSION['access_system']['role'] === 'ADMIN') : ?>
+            <a class="dropdown-item" href="/views/search_client.php">Consultar Información Detallada </a>
+          <?php endif; ?>
         </div>
       </li>
+      <!-- USUARIO -->
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle text-success text-capitalize" id="itemUser" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#"><i class="fas fa-user h5 m-0"></i> <?= strtolower($_SESSION['access_system']['name']) ?> </a>
+        <!-- SI ES ADMINISTRADOR -->
+        <?php if ($_SESSION['access_system']['role'] === 'ADMIN') : ?>
+          <a class="nav-link dropdown-toggle text-primary text-capitalize" id="itemUser" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#"><i class="fas fa-user h5 m-0"></i> <?= strtolower($_SESSION['access_system']['name']) ?> </a>
+          <!-- SI ES VENDEDOR -->
+        <?php else : ?>
+          <a class="nav-link dropdown-toggle text-success text-capitalize" id="itemUser" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#"><i class="fas fa-user h5 m-0"></i> <?= strtolower($_SESSION['access_system']['name']) ?> </a>
+        <?php endif; ?>
         <div class="dropdown-menu" aria-labelledby="itemUser">
           <a class="nav-link" href="/logout.php">Cerrar Sesíon</a>
         </div>
