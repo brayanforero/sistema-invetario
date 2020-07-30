@@ -10,18 +10,18 @@ include_once './partials/nav.php';
     <div v-show="!existsData" class="alert alert-danger col-12 text-center trans">
       <b>{{msgRes}}</b>
     </div>
-    <div class="col-12 col-md-4 mb-3" v-for="c in categories">
+    <div class="col-12 col-md-6 mb-3" v-for="c in categories">
       <div class="card shadow-sm">
+        <div class="card-header bg-primary text-light">
+          <p class="h4 m-0 text-center">Categoria</p>
+        </div>
         <div class="card-body">
-          <strong>Detalles</strong>
-          <p>{{p.name}}</p>
-          <p>Precio de compra: {{c.p_shop}} <span class="text-danger">Bs.S</span></p>
-          <p>Precio de venta: {{c.p_sale}} <span class="text-success">Bs.S</span></p>
-          <p>Cantidad disponible <span class="text-success">{{c.stock}}</span> </p>
+          <p>{{c.name}}</p>
+          <p>Registrada: {{c.date_created}}</p>
+          <p>Ultima Modificacion: {{c.last_date_update}}</p>
           <hr>
-
           <strong>Usuario</strong>
-          <p>{{c.usuario}}</p>
+          <p>{{c.user}}</p>
         </div>
       </div>
     </div>
@@ -52,8 +52,7 @@ require_once "./partials/scripts.php"
           this.msgRes = res.data.msg
           return
         }
-        // this.categories = res.data.data
-        console.log(res.data);
+        this.categories = res.data.data
       }
     },
     created() {

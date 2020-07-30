@@ -133,4 +133,32 @@ class Product extends Connection
 
     printResJson(404, "No se existen datos registrados");
   }
+
+  public function getByStock()
+  {
+    parent::getConnection();
+    $ps = $this->link->prepare("SELECT 	prod.id_product AS id, us.fullname AS user, 
+      prv.fullname AS provider, cat.name_category AS category ,prod.product_name AS name, prod.count AS stock, prod.shop_price AS p_shop, prod.sale_price AS p_sale
+      FROM products AS prod, users_system AS us, providers AS prv, categories AS cat
+      WHERE prod.id_user = us.id_user AND prod.id_provider = prv.id_provider AND prod.id_category = cat.id_category AND prod.count > 0
+    ");
+    $ps->execute();
+    parent::clearConnection();
+    $ms = $ps->errorInfo();
+    if ($ms[1]) {
+      getMessageCodeError($ms);
+      return;
+    }
+
+    $rs = $ps->fetchAll(PDO::FETCH_ASSOC);
+    if ($rs) {
+      $data = [];
+      $data = $rs;
+
+      printResJson(200, "ok", $data);
+      return;
+    }
+
+    printResJson(404, "No se existen datos registrados");
+  }
 }
