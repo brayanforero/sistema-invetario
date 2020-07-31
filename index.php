@@ -45,7 +45,7 @@ verifySession(); ?>
             <div class="form-group">
               <label for="product_count">Cantidad - </label>
               <strong :class="[colorStock]">Disponible: {{product.stock}}</strong>
-              <input v-model="countProduct" class="form-control mb-2" step="1" id="product_count" type="number">
+              <input @change="validateNumber($event)" v-model.lazy="countProduct" class="form-control mb-2" step="1" id="product_count" type="number">
             </div>
             <div class="form-group">
               <label for="price">Precio</label>
@@ -160,6 +160,15 @@ verifySession(); ?>
           })
           this.clients = res.data.data
         },
+        validateNumber(e) {
+          if (parseInt(e.target.value) <= 0) {
+            this.countProduct = 1
+            return
+          }
+          if (parseInt(e.target.value) > this.product.stock) {
+            this.countProduct = this.product.stock
+          }
+        }
       },
       created() {
         this.getProducts();
