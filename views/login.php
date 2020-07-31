@@ -1,5 +1,5 @@
 <?php include_once '../views/partials/header.php' ?>
-
+<!-- <?= password_hash("1234", PASSWORD_BCRYPT) ?> -->
 <div id="app" class="h-100">
   <div class="container">
     <!-- FILA -->

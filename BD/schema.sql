@@ -127,6 +127,7 @@ CREATE TABLE IF NOT EXISTS sales(
 	id_sale INT UNSIGNED NOT NULL AUTO_INCREMENT,
     id_user INT UNSIGNED NOT NULL,
     id_client INT UNSIGNED NOT NULL,
+    price_sale INT UNSIGNED NOT NULL,
     mount_sale DECIMAL(7,2) NOT NULL,
     date_created TIMESTAMP DEFAULT current_timestamp,
     last_date_update TIMESTAMP DEFAULT current_timestamp,
@@ -144,24 +145,7 @@ ALTER TABLE sales ADD CONSTRAINT fk_sales_clients FOREIGN KEY (id_client)
     ON UPDATE RESTRICT;
 -- ----------------------------------------------------------------------
 
-DROP TABLE IF EXISTS details_sales;
-CREATE TABLE IF NOT EXISTS details_sales (
-	id_sale INT UNSIGNED NOT NULL,
-    id_product INT UNSIGNED NOT NULL,
-	sale_price DECIMAL(7,2) NOT NULL,
-    count INT UNSIGNED NOT NULL
-);
 
-ALTER TABLE details_sales ADD CONSTRAINT fk_details_sales_providers FOREIGN KEY (id_sale) 
-	REFERENCES sales (id_sale) 
-    ON DELETE RESTRICT 
-    ON UPDATE RESTRICT;
-    
-ALTER TABLE details_sales ADD CONSTRAINT fk_details_sales_products FOREIGN KEY (id_product) 
-	REFERENCES products (id_product) 
-    ON DELETE RESTRICT 
-    ON UPDATE RESTRICT;
--- ----------------------------------------------------------------------
 
 
 

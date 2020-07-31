@@ -48,7 +48,7 @@ require_once "./partials/scripts.php"
 
         const res = await axios({
           method: "GET",
-          url: "/api/product/get.php"
+          url: "/api/product/get.php?filter=0"
         })
         if (res.data.status >= 400) {
           this.existsData = false

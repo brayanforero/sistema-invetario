@@ -49,7 +49,7 @@ verifySession(); ?>
               <input disabled v-model="totalPrice" class="form-control" name="#" id="price">
             </div>
             <div class="form-group">
-              <button @click="sale" class="btn btn-primary btn-block">Agregar a lista <i class="fas fa-shopping-cart"></i></button>
+              <button @click="sale" class="btn btn-primary btn-block">Agregar Venta<i class="fas fa-shopping-cart"></i></button>
             </div>
           </div>
         </div>
@@ -90,7 +90,7 @@ verifySession(); ?>
         async getProducts() {
           const res = await axios({
             method: "GET",
-            url: "/api/product/get.php?stock=1"
+            url: "/api/product/get.php?filter=stock"
           })
           this.products = res.data.data
         },
