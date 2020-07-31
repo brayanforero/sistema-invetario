@@ -48,7 +48,7 @@ class Client extends Connection
   public function get()
   {
     parent::getConnection();
-    $ps = $this->link->prepare("SELECT 
+    $ps = $this->link->prepare("SELECT C.id_client AS id, 
       C.identification AS doc, C.fullname AS name,C.email,
       C.phone_number , C.address,C.date_created, C.last_date_update,
       U.fullname AS user
