@@ -13,7 +13,7 @@
       </li>
       <!-- VENTAS -->
       <li class="nav-item">
-        <a class="nav-link" href="/"> <i class="fas fa-search-dollar h5 m-0"></i> Ventas</a>
+        <a class="nav-link" href="/views/listall_sales.php"> <i class="fas fa-search-dollar h5 m-0"></i> Ventas</a>
       </li>
       <!-- ALMACEN -->
       <li class="nav-item dropdown">

@@ -67,4 +67,46 @@ class Sale extends Connection
       $this->link->rollBack();
     }
   }
+
+  // listar todas las ventas
+
+  public function get()
+  {
+    parent::getConnection();
+    $ps = $this->link->prepare("SELECT SL.id_sale AS id, U.username AS user, C.fullname AS client, P.product_name AS product, SL.price_sale, SL.quantity, SL.mount_sale, SL.date_created FROM sales AS SL, users_system AS U, clients AS C, products AS P WHERE U.id_user = SL.id_user AND C.id_client = SL.id_client AND P.id_product = SL.id_product ORDER BY SL.date_created DESC");
+    $ps->execute();
+
+    parent::clearConnection();
+    $ms = $ps->errorInfo();
+    if ($ms[1]) {
+      getMessageCodeError($ms);
+      return;
+    }
+    $rs = $ps->fetchAll(PDO::FETCH_ASSOC);
+    // SI SE ENCUENTRAN DATOS SE ENVIAN A LA VISTA.
+    if ($rs) {
+      $data = [];
+      $data = $rs;
+      printResJson('200', 'ok', $data);
+      return;
+    }
+    printResJson(404, "No se existen datos registrados");
+  }
+
+  public function delete($id)
+  {
+    $idSale = intval(cleanString($id));
+    parent::getConnection();
+    $ps = $this->link->prepare("DELETE FROM sales WHERE id_sale = :id LIMIT 1");
+    $ps->bindParam(":id", $idSale, PDO::PARAM_INT);
+    $ps->execute();
+
+    parent::clearConnection();
+    $ms = $ps->errorInfo();
+    if ($ms[1]) {
+      getMessageCodeError($ms);
+      return;
+    }
+    printResJson(200, "Eleminacion exitosa");
+  }
 }
