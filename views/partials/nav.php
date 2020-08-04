@@ -29,6 +29,9 @@
           <?php if ($_SESSION['access_system']['role'] === 'ADMIN') : ?>
             <a class="dropdown-item" href="/views/listall_category.php">Lista de Categorias</a>
           <?php endif; ?>
+          <?php if ($_SESSION['access_system']['role'] === 'ADMIN') : ?>
+            <a class="dropdown-item" href="/views/register_category.php">Agregar Categorias</a>
+          <?php endif; ?>
         </div>
       </li>
       <!-- PROVEDORES -->
@@ -58,6 +61,18 @@
           <?php endif; ?>
         </div>
       </li>
+      <!-- USUARIOS -->
+      <?php if ($_SESSION['access_system']['role'] === 'ADMIN') : ?>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="itemCliente" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-users h5 m-0"></i> Sistema
+          </a>
+          <div class="dropdown-menu" aria-labelledby="itemCliente">
+            <a class="dropdown-item" href="/views/register_user.php"> Nuevo Usuario</a>
+            <a class="dropdown-item" href="/views/listall_users.php"> Usuarios Registrados</a>
+          </div>
+        </li>
+      <?php endif; ?>
       <!-- USUARIO -->
       <li class="nav-item dropdown">
         <!-- SI ES ADMINISTRADOR -->

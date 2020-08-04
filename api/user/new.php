@@ -2,7 +2,7 @@
 require_once '../../models/User.php';
 
 if ($_POST) {
-  $doc = $_POST['documento'];
+  $doc = $_POST['document'];
   $fullname = $_POST['fullName'];
   $username = $_POST['userName'];
   $password = $_POST['userPass'];
