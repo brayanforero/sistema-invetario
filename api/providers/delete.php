@@ -1,9 +1,9 @@
 <?php
 require_once '../../models/Providers.php';
 
-if ($_POST) {
+if (isset($_GET) && isset($_GET['id'])) {
 
-  $id = $_POST['id'];
+  $id = $_GET['id'];
   $provider = new Provider;
   $provider->delete($id);
   return;

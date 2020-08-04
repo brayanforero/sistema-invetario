@@ -1,10 +1,11 @@
 <?php require_once '../../models/Client.php';
 
-if ($_POST) {
+if (isset($_GET) && isset($_GET['id'])) {
 
-  $id_client = $_POST['id_client'];
-  $cliente = new Client;
-  $cliente->delete($id_client);
+  $id = $_GET['id'];
+  $client = new Client;
+  $client->delete($id);
+  return;
 }
 
 echo json_encode([

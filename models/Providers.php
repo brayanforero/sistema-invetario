@@ -146,15 +146,42 @@ class Provider extends Connection
       : printResJson(500, 'Ha ocurrido');
   }
 
+  // public function delete($id)
+  // {
+
+  //   $provider_id = $id;
+  //   parent::getConnection();
+  //   $ps = $this->link->prepare("UPDATE providers 
+  //     SET state = 0 WHERE id_provider = :id LIMIT 1
+  //     ");
+  //   $ps->bindParam(':id', $provider_id, PDO::PARAM_INT);
+  //   $rs = $ps->execute();
+  //   parent::clearConnection();
+
+  //   $ms = $ps->errorInfo();
+  //   if ($ms[1]) {
+  //     getMessageCodeError($ms);
+  //     return;
+  //   }
+
+  //   // ENVIA MENSAJE EN CASO DE SE ACTUALIZA O NO LOS DATOS.
+  //   $rs ? printResJson(200, 'Eliminacion exitosa.')
+  //     : printResJson(500, 'Ha ocurrido');
+  // }
+
   public function delete($id)
   {
 
-    $provider_id = $id;
+    $provider_id = intval(cleanString($id));
     parent::getConnection();
-    $ps = $this->link->prepare("UPDATE providers 
-      SET state = 0 WHERE id_provider = :id LIMIT 1
-      ");
-    $ps->bindParam(':id', $provider_id, PDO::PARAM_INT);
+    $ps = $this->link->prepare("DELETE FROM providers 
+      WHERE id_provider = :id LIMIT 1
+    ");
+    $ps->bindParam(
+      ':id',
+      $provider_id,
+      PDO::PARAM_INT
+    );
     $rs = $ps->execute();
     parent::clearConnection();
 

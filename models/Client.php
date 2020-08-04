@@ -104,24 +104,24 @@ class Client extends Connection
     printResJson('404',  'No existen datos registrados');
   }
 
-  public function delete($id)
-  {
-    $user_id =  $id;
-    parent::getConnection();
-    $ps = $this->link->prepare("UPDATE clients SET state = false WHERE id_client = :id LIMIT 1");
-    $ps->bindParam(':id', $user_id, PDO::PARAM_INT);
-    $rs = $ps->execute();
-    parent::clearConnection();
+  // public function delete($id)
+  // {
+  //   $user_id =  $id;
+  //   parent::getConnection();
+  //   $ps = $this->link->prepare("UPDATE clients SET state = false WHERE id_client = :id LIMIT 1");
+  //   $ps->bindParam(':id', $user_id, PDO::PARAM_INT);
+  //   $rs = $ps->execute();
+  //   parent::clearConnection();
 
-    $ms = $ps->errorInfo();
-    if ($ms[1]) {
-      getMessageCodeError($ms);
-      return;
-    }
+  //   $ms = $ps->errorInfo();
+  //   if ($ms[1]) {
+  //     getMessageCodeError($ms);
+  //     return;
+  //   }
 
-    $rs ? printResJson(200, 'Eliminacion exitosa')
-      : printResJson(404, 'Ha ocurrido');
-  }
+  //   $rs ? printResJson(200, 'Eliminacion exitosa')
+  //     : printResJson(404, 'Ha ocurrido');
+  // }
 
   public function update($identi, $fullname, $email, $phone, $address, $id)
   {
@@ -159,5 +159,26 @@ class Client extends Connection
     // ENVIA MENSAJE EN CASO DE SE ACTUALIZA O NO LOS DATOS.
     $rs ? printResJson(200, 'Actualizacion de datos exitosa.')
       : printResJson(500, 'Ha ocurrido');
+  }
+
+  public function delete($id)
+  {
+    $user_id = intval(cleanString($id));
+    parent::getConnection();
+    $ps = $this->link->prepare("DELETE FROM clients
+      WHERE id_client = :id LIMIT 1
+    ");
+    $ps->bindParam(':id', $user_id, PDO::PARAM_INT);
+    $rs = $ps->execute();
+    parent::clearConnection();
+
+    $ms = $ps->errorInfo();
+    if ($ms[1]) {
+      getMessageCodeError($ms);
+      return;
+    }
+
+    $rs ? printResJson(200, 'Eliminacion exitosa')
+      : printResJson(404, 'Ha ocurrido');
   }
 }

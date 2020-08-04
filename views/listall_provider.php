@@ -10,8 +10,12 @@ include_once './partials/nav.php';
     <div v-show="!existsData" class="alert alert-danger col-12 text-center trans">
       <b>{{msgRes}}</b>
     </div>
-    <div class="col-md-3" v-for="p in providers">
+    <div class="col-md-3" v-for="(p,i) in providers">
       <div class="card shadow-sm">
+        <div class="card-header bg-primary text-light">
+          <p class="h3 m-0">Provedor n°{{p.id}}</p>
+          <button class="btn btn-primary" @click="deleteProvider(p.id, i)"><i class="fas fa-trash"></i></button>
+        </div>
         <div class="card-body">
           <strong>Datos de personales</strong>
           <p><span>Nombre completo:</span> {{p.name}}</p>
@@ -54,6 +58,17 @@ require_once "./partials/scripts.php"
           return
         }
         this.providers = res.data.data
+      },
+      async deleteProvider(id, i) {
+        const res = await axios({
+          method: "GET",
+          url: `/api/providers/delete.php?id=${id}`
+        })
+        console.log(res.data);
+        if (res.data.status == 200) {
+          this.providers.splice(i, 1)
+          return
+        }
       }
     },
     created() {
