@@ -136,9 +136,9 @@ class User extends Connection
   public function get()
   {
     parent::getConnection();
-    $ps = $this->link->prepare("SELECT identification AS doc, fullname AS fname, username AS name,
-     user_pass AS pass, role AS r, date_created AS created
-     FROM users_system WHERE state = 1
+    $ps = $this->link->prepare("SELECT id_user AS id,identification AS doc, fullname AS fname, username AS name,
+     user_pass AS pass, role AS r, state AS status ,date_created AS created
+     FROM users_system
     ");
     $ps->execute();
     parent::clearConnection();

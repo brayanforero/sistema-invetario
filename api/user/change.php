@@ -1,7 +1,7 @@
 <?php
 require_once '../../models/User.php';
 
-if ($_POST) {
+if (isset($_POST)) {
   $id =  $_POST['id'];
 
   $user = new User;
