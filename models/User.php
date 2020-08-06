@@ -22,7 +22,7 @@ class User extends Connection
     }
 
     parent::getConnection();
-    $ps = $this->link->prepare("SELECT id_user,fullname , username, user_pass, now() AS date_log, role FROM users_system 
+    $ps = $this->link->prepare("SELECT id_user,fullname , username, user_pass, now() AS date_log, role, state AS status FROM users_system 
           WHERE username = :nu");
     $ps->bindParam(':nu', $name, PDO::PARAM_STR);
     $ps->execute();
@@ -35,6 +35,11 @@ class User extends Connection
 
     $user = $ps->fetch(PDO::FETCH_ASSOC);
     if (password_verify($password, $user['user_pass'])) {
+
+      if ($user['status'] == 0) {
+        printResJson(403, "Usuario deshabilitado");
+        return;
+      }
       $data = ['redirect' => '/'];
       createSession($user);
       printResJson(200, 'Verificacion correcta', $data);

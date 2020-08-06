@@ -40,7 +40,7 @@ const app = new Vue({
           $("#formLogin button").text("Ingresar");
           if (res.status >= 400) {
             $(".card-footer .alert").html(
-              `<strong>${res.msg}<i class="fas fa-times ml-2"></i></strong>`
+              `<strong><i class="fas fa-times-circle m-0 mr-2"></i>${res.msg}</strong>`
             );
             $(".card-footer ").addClass("d-block");
             setInterval(() => {
@@ -50,7 +50,7 @@ const app = new Vue({
           }
           $(".card-footer .alert")
             .html(
-              `<strong>${res.msg}<i class="fas fa-check ml-2"></i></strong>`
+              `<strong><i class="fas fa-check-circle mr-2"></i>${res.msg}</strong>`
             )
             .addClass("alert-success")
             .removeClass("alert-danger");
