@@ -5,7 +5,7 @@ include_once './partials/header.php';
 include_once './partials/nav.php';
 ?>
 <div class="container" id="app">
-  <h3 class="text-center mb-3">Usuarios registradas</h3>
+  <h3 class="text-center mb-3">Usuarios registrados</h3>
   <div class="row">
     <div v-show="!existsData" class="alert alert-danger col-12 text-center trans">
       <b>{{msgRes}}</b>
@@ -22,7 +22,7 @@ include_once './partials/nav.php';
           <p>{{u.status == 1 ? 'activo' : 'dasabilitado'}}</p>
           <p>Registrado: {{u.created}}</p>
           <!-- <p>Ultima Modificacion: {{u.last_date_update}}</p> -->
-          <button @click="changeStatusUser(u.status, u.id, i)" class="btn" :class="{'btn-warning': u.status == 1, 'btn-info': u.status != 1}">{{u.status == 1 ? 'Desactivar' : 'Activar'}}</button>
+          <button @click="changeStatusUser(u.status, u.id, i)" class="btn show-alert" :class="{'btn-warning': u.status == 1, 'btn-info': u.status != 1}">{{u.status == 1 ? 'Desactivar' : 'Activar'}}</button>
         </div>
       </div>
     </div>
@@ -55,40 +55,44 @@ require_once "./partials/scripts.php"
         this.users = res.data.data
       },
       changeStatusUser(status, id, i) {
-        if (status == 1) {
-          $.ajax({
-            type: "POST",
-            url: "/api/user/change.php",
-            data: {
-              id
-            },
-            dataType: "json",
-            success: (res) => {
-
-              alert("Se deshabilitado el usuario correctamente")
-              app.users[i].status = 0;
-            },
-            falied: (err) => {
-              console.log(err);
+        bootbox.confirm(`Esta seguro de cambiar el estado de <strong>${this.users[i].name}</strong>`, result => {
+          if (result) {
+            if (status == 1) {
+              $.ajax({
+                type: "POST",
+                url: "/api/user/change.php",
+                data: {
+                  id
+                },
+                dataType: "json",
+                success: (res) => {
+                  bootbox.alert("Se deshabilitado el usuario correctamente")
+                  app.users[i].status = 0;
+                },
+                falied: (err) => {
+                  console.log(err);
+                }
+              })
+              return
             }
-          })
-          return
-        }
-        $.ajax({
-          type: "POST",
-          url: "/api/user/change.php",
-          data: {
-            id
-          },
-          dataType: "json",
-          success: (res) => {
-            alert("Se habilitado el usuario correctamente")
-            app.users[i].status = 1;
-          },
-          falied: (err) => {
-            console.log(err);
+            $.ajax({
+              type: "POST",
+              url: "/api/user/change.php",
+              data: {
+                id
+              },
+              dataType: "json",
+              success: (res) => {
+                bootbox.alert("Se habilitado el usuario correctamente")
+                app.users[i].status = 1;
+              },
+              falied: (err) => {
+                console.log(err);
+              }
+            })
           }
         })
+
       }
     },
     created() {

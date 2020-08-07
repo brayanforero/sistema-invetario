@@ -5,7 +5,7 @@
     <!-- FILA -->
     <div class="row justify-content-center align-items-center">
       <!-- FORMULARIO DE LOGIN -->
-      <div class="col-md-8 col-lg-5">
+      <div class="col-md-8 col-lg-7">
         <form id="formLogin" @submit.prevent="sendData" class="card rounded">
           <div class="card-header text-center">
             <p class="h1">Acceso al Sistema</p>
@@ -23,17 +23,17 @@
               </button>
             </div>
           </div>
-          <div v-show="isError" class="card-footer">
-            <div class="alert alert-danger">
+          <div class="card-footer bg-white border-0 d-none animate__animated animate__faster">
+            <div class="alert alert-danger m-0">
               <strong>{{msgError}}</strong>
             </div>
           </div>
         </form>
       </div>
       <!-- TITULO DEL SISTEMA -->
-      <div class="col-md-7 d-none d-lg-block p-5 bg-dark text-center text-white rounded">
+      <!-- <div class="col-md-7 d-none d-lg-block p-5 bg-dark text-center text-white rounded">
         <p class="display-2">Inventario Productos</i> </p>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>

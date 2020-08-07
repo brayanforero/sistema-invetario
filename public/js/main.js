@@ -4,7 +4,6 @@ const app = new Vue({
     return {
       nameUser: "",
       namePass: "",
-      isError: false,
       msgError: "",
     };
   },
@@ -17,10 +16,10 @@ const app = new Vue({
       this.sendRequestLogin("/api/login/");
     },
     showError(msg) {
-      this.isError = true;
+      $(".card-footer").addClass("animate__fadeIn").removeClass("d-none");
       this.msgError = msg;
       setInterval(() => {
-        this.isError = false;
+        $(".card-footer").removeClass("animate__fadeIn").addClass("d-none");
         this.msgError = "";
       }, 5000);
     },
@@ -42,9 +41,9 @@ const app = new Vue({
             $(".card-footer .alert").html(
               `<strong><i class="fas fa-times-circle m-0 mr-2"></i>${res.msg}</strong>`
             );
-            $(".card-footer ").addClass("d-block");
+            $(".card-footer").addClass("d-block animate__fadeIn");
             setInterval(() => {
-              $(".card-footer ").removeClass("d-block");
+              $(".card-footer").removeClass("d-block animate__fadeIn");
             }, 5000);
             return;
           }
