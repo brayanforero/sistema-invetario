@@ -1,12 +1,12 @@
 <?php include_once '../views/partials/header.php' ?>
 <!-- <?= password_hash("1234", PASSWORD_BCRYPT) ?> -->
 <div id="app" class="h-100">
-  <div class="container">
+  <div class="container-fluid p-0">
     <!-- FILA -->
-    <div class="row justify-content-center align-items-center">
+    <div class="row m-0 justify-content-center align-items-center">
       <!-- FORMULARIO DE LOGIN -->
-      <div class="col-md-8 col-lg-7">
-        <form id="formLogin" @submit.prevent="sendData" class="card rounded">
+      <div class="col-md-8 col-lg-5">
+        <form id="formLogin" @submit.prevent="sendData" class="card rounded shadow-sm">
           <div class="card-header text-center">
             <p class="h1">Acceso al Sistema</p>
           </div>
@@ -31,9 +31,13 @@
         </form>
       </div>
       <!-- TITULO DEL SISTEMA -->
-      <!-- <div class="col-md-7 d-none d-lg-block p-5 bg-dark text-center text-white rounded">
-        <p class="display-2">Inventario Productos</i> </p>
-      </div> -->
+      <div class="col-md-7 h-100 shadow-sm d-none d-lg-block p-0 bg-image">
+        <!-- <p class="display-1 h-inherit bg-dark">Inventario Productos</i> </p>
+       -->
+        <div class="w-100 h-100 bg-alpha text-center">
+          <p class="display-4 text-white m-0 w-100 h-100 d-flex justify-content-center align-items-center">Inventario de Genericos</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>

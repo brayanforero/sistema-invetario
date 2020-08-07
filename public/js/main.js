@@ -59,6 +59,7 @@ const app = new Vue({
         },
         done: function (err) {
           console.log(err);
+          $("#formLogin button").text("Ingresar");
         },
       });
     },

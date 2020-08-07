@@ -5,6 +5,24 @@ body {
 
 /* CENTRAR DANDO EL ALTO DEL VIEPORT */
 .row,
-#app .container {
+#app .container-fluid {
   height: inherit;
+}
+
+.bg-image {
+  background-image: url(../images/genericos.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.bg-alpha {
+  background-color: rgba(52, 58, 64, 0.75);
+}
+
+.h-80 {
+  height: 80%;
+}
+.display-4 {
+  font-size: 4rem;
 }
