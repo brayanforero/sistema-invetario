@@ -11,7 +11,7 @@ verifySession(); ?>
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <!-- CARGANDO VUE JS -->
   <script src="/public/js/vue.js"></script>
-  <title>Sistema de Inventario - Francisco</title>
+  <title>Sistema de Inventario</title>
   <!-- CARGA DE LOS ESTILOS PARA EL DISEÑO -->
   <link rel="stylesheet" href="/public/css/litera.css">
   <link rel="stylesheet" href="/public/css/main.css">
@@ -25,38 +25,41 @@ verifySession(); ?>
       <div class="col-md-8">
 
         <div class="card">
-          <div class="card-header bg-primary">
-            <p class="h4 m-0 text-light text-center">Agregar Venta</p>
+          <div class="card-header bg-primary p-4 text-center">
+            <span class="h4 m-0 text-light ">Agregar Venta <i class="fas fa-shopping-cart"></i></span>
           </div>
           <div class="card-body">
-            <div class="d-none alert text-center p-1">Procesando...</div>
+
             <div class="form-group">
               <label for="client">Seleccione un Cliente</label>
-              <select v-model="clientSelected" class="form-control" name="#" id="client">
-                <option v-for="(c,i) in clients" :value="i">{{c.name}}</option>
+              <select v-model.lazy="clientSelect" @change="onSelectClient($event)" class="form-control" name="#" id="client">
+                <option v-for="(c,i) in listClients" :value="i">{{c.name}}</option>
+                <option v-if="!listClients" disabled>No hay clientes registrados</option>
               </select>
             </div>
             <div class="form-group">
               <label for="product">Seleccione un Producto</label>
-              <select v-model="productSelected" class="form-control" name="#" id="product">
-                <option v-for="(p,i) in products" :value="i">{{p.name}}</option>
+              <select v-model.lazy="productSelect" @change="onSelectProduct($event)" class="form-control" name="#" id="product">
+                <option v-for="(p,i) in listProducts" :value="i">{{p.name}}</option>
+                <option v-if="!listProducts" disabled>No hay productos registrados</option>
               </select>
             </div>
-            <div class="form-group">
-              <label for="product_count">Cantidad - </label>
-              <strong :class="[colorStock]">Disponible: {{product.stock}}</strong>
-              <input @change="validateNumber($event)" v-model.lazy="countProduct" class="form-control mb-2" step="1" id="product_count" type="number">
+            <div v-show="isSelectedProduct" class="form-group">
+              <label for="product_count">Indique la cantidad</label>
+              <input @change="validateNumber($event)" v-model.lazy="countProduct" class="form-control mb-2 w-75" id="product_count" type="number">
+              <span class="small" :class="[colorStock]">Disponible: {{productSelected.stock}} Lts.</span>
             </div>
-            <div class="form-group">
+            <div v-show="isSelectedProduct" class="form-group">
               <label for="price">Precio</label>
-              <input v-model="product.p_sale" disabled class="form-control" id="price">
+              <input v-model="productSelected.p_sale" disabled class="form-control">
             </div>
-            <div class="form-group">
+            <div v-show="isSelectedProduct" class="form-group">
               <label for="price">Total</label>
-              <input disabled v-model="totalPrice" class="form-control" name="#" id="price">
+              <input disabled v-model="totalPrice" class="form-control">
             </div>
             <div class="form-group">
-              <button @click="sale" class="btn btn-primary btn-block">Agregar Venta<i class="fas fa-shopping-cart"></i></button>
+              <div class="d-none alert text-center p-1">Procesando...</div>
+              <button @click="sale" class="btn btn-primary btn-block">Agregar Venta</button>
             </div>
           </div>
         </div>
@@ -71,44 +74,38 @@ verifySession(); ?>
     const app = new Vue({
       el: "#app",
       data: {
-        productSelected: 0,
-        clientSelected: 0,
-        title: "App Vue main",
-        products: [],
-        clients: [],
+        productSelected: {},
+        clientSelected: {},
+        clientSelect: "",
+        productSelect: "",
+        listProducts: [],
+        listClients: [],
         countProduct: 1,
         productSale: {},
+        isSelectedProduct: false,
       },
       computed: {
-        product() {
-          return this.products[this.productSelected]
-        },
-        client() {
-          return this.clients[this.clientSelected]
-        },
-        totalPrice() {
-          return (this.countProduct * this.product.p_sale).toFixed(2)
-        },
         colorStock() {
           return {
-            "text-success": this.product.stock >= 10,
-            "text-warning": this.product.stock > 5 && this.product.stock < 10,
-            "text-danger": this.product.stock <= 5,
+            "text-success": this.productSelected.stock >= 10,
+            "text-warning": this.productSelected.stock > 5 && this.productSelected.stock < 10,
+            "text-danger": this.productSelected.stock <= 5,
           }
+        },
+        totalPrice() {
+          return (this.productSelected.p_sale * this.countProduct).toFixed(2)
         }
       },
       methods: {
         sale() {
-
           this.productSale.user = id.textContent;
-          this.productSale.client = this.client.id;
-          this.productSale.product = this.product.id;
+          this.productSale.client = this.clientSelected.id;
+          this.productSale.product = this.productSelected.id;
           this.productSale.count = this.countProduct;
-          this.productSale.price_sale = this.product.p_sale;
+          this.productSale.price_sale = this.productSelected.p_sale;
 
           let sale = this.productSale
           this.productSale = {}
-
           $.ajax({
             type: "POST",
             url: "/api/sale/new.php",
@@ -125,13 +122,14 @@ verifySession(); ?>
                 $(".alert")
                   .removeClass("alert-info")
                   .addClass("alert-danger")
-                  .text(res.msg)
+                  .html(`<i class="fas fa-times-circle"></i> ${res.msg}`)
               } else {
-
+                app.listProducts[app.productSelect].stock -= app.countProduct
+                app.reset()
                 $(".alert")
                   .removeClass("alert-info alert-danger")
                   .addClass("alert-success")
-                  .text(res.msg)
+                  .html(`<i class="fas fa-check-circle"></i> ${res.msg}`)
               }
             },
             falied: (err) => {
@@ -142,38 +140,47 @@ verifySession(); ?>
             $(".alert")
               .removeClass("alert-info alert-danger alert-info")
               .addClass("d-none")
-              .text("")
+              .html("")
           }, 5000);
-          this.getProducts();
         },
         async getProducts() {
           const res = await axios({
             method: "GET",
             url: "/api/product/get.php?filter=stock"
           })
-          this.products = res.data.data
+          this.listProducts = res.data.data
         },
         async getClients() {
           const res = await axios({
             method: "GET",
             url: "/api/client/get.php"
           })
-          this.clients = res.data.data
+          this.listClients = res.data.data
         },
         validateNumber(e) {
           if (parseInt(e.target.value) <= 0) {
             this.countProduct = 1
             return
           }
-          if (parseInt(e.target.value) > this.product.stock) {
-            this.countProduct = this.product.stock
-          }
-        }
+          // if (parseInt(e.target.value) > this.product.stock) {
+          //   this.countProduct = this.product.stock
+          // }
+        },
+        onSelectClient(e) {
+          this.clientSelected = this.listClients[this.clientSelect]
+        },
+        onSelectProduct(e) {
+          this.isSelectedProduct = true
+          this.productSelected = this.listProducts[this.productSelect]
+        },
+        reset() {
+          this.countProduct = 1
+        },
       },
       created() {
         this.getProducts();
         this.getClients();
-      }
+      },
     })
   </script>
 </body>

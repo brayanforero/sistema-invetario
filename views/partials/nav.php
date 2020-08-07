@@ -1,6 +1,8 @@
 <span id="id" class="d-none"><?= strtolower($_SESSION['access_system']['id']) ?></span>
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
-  <a class="navbar-brand" href="/">Inventarios de Productos <i class="fas fa-apple-alt h3 m-0 text-secondary"></i></a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4 pr-5">
+  <a class="navbar-brand d-flex align-items-center" href="/"><i class="fas fa-box-open h2 m-0 text-secondary"></i>
+    <span class="h6 m-0 ml-1">Inventario</span>
+  </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -54,7 +56,9 @@
           <i class="fas fa-users h5 m-0"></i> Clientes
         </a>
         <div class="dropdown-menu" aria-labelledby="itemCliente">
-          <a class="dropdown-item" href="/views/listall_client.php">Lista Completa </i></a>
+          <?php if ($_SESSION['access_system']['role'] === 'ADMIN') : ?>
+            <a class="dropdown-item" href="/views/listall_client.php">Lista Completa </i></a>
+          <?php endif; ?>
           <a class="dropdown-item" href="/views/register_client.php"> Registrar Nuevo</a>
           <?php if ($_SESSION['access_system']['role'] === 'ADMIN') : ?>
             <a class="dropdown-item" href="/views/search_client.php">Consultar Información Detallada </a>
