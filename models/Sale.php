@@ -73,7 +73,14 @@ class Sale extends Connection
   public function get()
   {
     parent::getConnection();
-    $ps = $this->link->prepare("SELECT SL.id_sale AS id, U.username AS user, C.fullname AS client, P.product_name AS product, SL.price_sale, SL.quantity, SL.mount_sale, SL.date_created FROM sales AS SL, users_system AS U, clients AS C, products AS P WHERE U.id_user = SL.id_user AND C.id_client = SL.id_client AND P.id_product = SL.id_product ORDER BY SL.date_created DESC");
+    $ps = $this->link->prepare("SELECT 
+      SL.id_sale AS id, U.username AS user, 
+      C.fullname AS client, 
+      P.product_name AS product, 
+      SL.price_sale, SL.quantity, SL.mount_sale, 
+      date_format(SL.date_created, '%d/%m/%Y - %h:%i %p') AS fecha 
+      FROM sales AS SL, users_system AS U, clients AS C, products AS P WHERE U.id_user = SL.id_user AND C.id_client = SL.id_client AND P.id_product = SL.id_product ORDER BY SL.date_created DESC
+      ");
     $ps->execute();
 
     parent::clearConnection();

@@ -47,7 +47,7 @@ verifySession(); ?>
             <div v-show="isSelectedProduct" class="form-group">
               <label for="product_count">Indique la cantidad</label>
               <input @change="validateNumber($event)" v-model.lazy="countProduct" class="form-control mb-2 w-75" id="product_count" type="number">
-              <span class="small" :class="[colorStock]">Disponible: {{productSelected.stock}} Lts.</span>
+              <span class="small" :class="[colorStock]">Disponible: {{productSelected.stock}}</span>
             </div>
             <div v-show="isSelectedProduct" class="form-group">
               <label for="price">Precio</label>

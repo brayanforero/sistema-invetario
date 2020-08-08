@@ -12,20 +12,21 @@ include_once './partials/nav.php';
     </div>
     <div class="col-12 col-md-6 mb-3" v-for="(s, i) in sales">
       <div class="card shadow-sm">
-        <div class="card-header bg-primary text-light">
-          <p class="h4 m-0 text-center">Venta n° {{s.id}}</p>
-          <button @click="deleteSale(s.id, i)" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+        <div class="card-header bg-light">
+          <span class="h5 d-block text-center">Información de Venta</span>
+          <p>N° de Venta: <strong>{{s.id}}</strong></p>
+          <p>Fecha y hora: <strong> {{s.fecha}}</strong></p>
         </div>
         <div class="card-body">
-          <p>{{s.client}}</p>
-          <p>{{s.product}}</p>
-          <p>{{s.count}}</p>
-          <p>{{s.price_sale}}</p>
-          <p>{{s.mount_sale}}</p>
-          <p>Fecha: {{s.date_created}}</p>
+          <p>Cliente: <strong>{{s.client}}</strong></p>
+          <p>Producto: <strong>{{s.product}}</strong></p>
+          <p>Unidades: <strong>{{s.quantity}}</strong></p>
+          <p>Precio Vendido: <strong>{{s.price_sale}}</strong> $</p>
+          <p>Total de Venta: <strong>{{s.mount_sale}}</strong> $</p>
           <hr>
           <strong>Usuario</strong>
           <p>{{s.user}}</p>
+          <button @click="deleteSale(s.id, i)" class="btn btn-danger"><i class="fas fa-trash"></i></button>
         </div>
       </div>
     </div>
@@ -57,16 +58,23 @@ require_once "./partials/scripts.php"
         }
         this.sales = res.data.data
       },
-      async deleteSale(id, i) {
-        const res = await axios({
-          method: "GET",
-          url: `/api/sale/delete.php?id=${id}`
+      deleteSale(id, i) {
+        bootbox.confirm(`Esta seguro de eliminar la venta ${this.sales[i].id}, esta acción no se puede revertir`, async result => {
+          if (result) {
+            const res = await axios({
+              method: "GET",
+              url: `/api/sale/delete.php?id=${id}`
+            })
+            if (res.data.status == 200) {
+              bootbox.alert(`${res.data.msg}`)
+              this.sales.splice(i, 1)
+              this.existsData = false
+              this.msgRes = "No existen datos registrados"
+              return
+            }
+            bootbox.alert("No se pudo completar su operacion")
+          }
         })
-        if (res.data.status == 200) {
-          this.sales.splice(i, 1);
-          this.existsData = false;
-          this.msg = "No existen datos registrados"
-        }
       }
     },
     created() {
