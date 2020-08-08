@@ -10,34 +10,39 @@ include_once './partials/nav.php';
     <div class="col-md-8">
       <form @submit.prevent="sendData" class="card" id="newClient">
         <div id="alert" class="alert  p-2 text-center d-none"></div>
+        <div class="card-header bg-primary text-center text-light">
+          <span class="card-title h2 text-center">Registro de Cliente</span>
+        </div>
         <div class="card-body">
-          <p class="card-title h2 text-center">Registro de Cliente<p>
-              <div class="form-group d-flex justify-content-center align-items-center">
-                <select required v-model="newClient.typeDoc" class="form-control w-25 mr-2" id="docSelect">
-                  <option value="V-">V</option>
-                  <option value="E-">E</option>
-                </select>
-                <input required v-model="newClient.doc" placeholder="Cedula de identidad" type="text" class="form-control">
-              </div>
-              <div class="form-group">
-                <input required v-model="newClient.name" placeholder="Nombre completo" type="text" class="form-control">
-              </div>
-              <div class="form-group d-flex justify-content-center align-items-center">
-                <input v-model="newClient.email" placeholder="Correo electrónico" type="text" class="form-control">
-                <span class="text-warning ml-1">*</span>
-              </div>
-              <div class="form-group d-flex justify-content-center align-items-center">
-                <input v-model="newClient.phone" placeholder="Número de telefono" type="text" class="form-control">
-                <span class="text-warning ml-1">*</span>
-              </div>
-              <div class="form-group d-flex justify-content-center align-items-center">
-                <input v-model="newClient.addr" placeholder="Dirección" type="text" class="form-control">
-                <span class="text-warning ml-1">*</span>
-              </div>
+          <div class="form-group d-flex justify-content-center align-items-center">
+            <select required v-model="newClient.typeDoc" class="form-control w-25 mr-2" id="docSelect">
+              <option value="V-">V</option>
+              <option value="E-">E</option>
+            </select>
+            <input @keyup="validateDoc($event)" required v-model="newClient.doc" placeholder="Cedula de identidad" type="text" class="form-control">
+          </div>
+          <small class="doc text-danger d-none mb-3">Formato no válido, debes ingresar solo números min 6 max 12</small>
+          <div class="form-group">
+            <input @keyup="validateName($event)" required v-model="newClient.name" placeholder="Nombre completo" type="text" class="form-control">
+          </div>
+          <small class="name text-danger d-none mb-3">Formato no inválido para un nombre </small>
+          <div class="form-group d-flex justify-content-center align-items-center">
+            <input required v-model="newClient.email" placeholder="Correo electrónico" type="email" class="form-control">
+            <span class="text-warning ml-1">*</span>
+          </div>
+          <div class="form-group d-flex justify-content-center align-items-center">
+            <input @keyup="validatePhone($event)" required v-model="newClient.phone" placeholder="Número de telefono" type="text" class="form-control">
+            <span class="text-warning ml-1">*</span>
+          </div>
+          <small class="phone text-danger d-none mb-3">El numero no debe poseer letras y debe tener 11 caractéres</small>
+          <div class="form-group d-flex justify-content-center align-items-center">
+            <input required v-model="newClient.addr" placeholder="Dirección" type="text" class="form-control">
+            <span class="phone text-warning ml-1">*</span>
+          </div>
 
-              <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block">Registrar</button>
-              </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+          </div>
         </div>
         <div class="card-footer">
           <p>Campos opcionales <span class="text-warning">*</span></p>
@@ -53,6 +58,9 @@ require_once "./partials/scripts.php"
 <script src="/public/js/vue.js"></script>
 <script>
   const id = document.querySelector("#id")
+  const testPhone = /[0-9]{11}/g
+  const testDoc = /[0-9]{6,12}/g
+  const testName = /[aA-zZ]{3,50}/g
   const app = new Vue({
     el: "#app",
     data: {
@@ -66,8 +74,11 @@ require_once "./partials/scripts.php"
       }
     },
     methods: {
-
       sendData() {
+        if (!this.newClient.typeDoc) {
+          bootbox.alert("Debes seleccionar un tipo de documento")
+          return
+        }
         const user = {
           doc: this.newClient.typeDoc + this.newClient.doc,
           name: this.newClient.name,
@@ -115,6 +126,30 @@ require_once "./partials/scripts.php"
           }
         })
 
+      },
+      validatePhone(e) {
+        if (!testPhone.test(e.target.value)) {
+          this.newClient.phone += ""
+          $("small.phone").removeClass('d-none').addClass('d-block')
+          return
+        };
+        $("small.phone").removeClass('d-block').addClass('d-none')
+      },
+      validateName(e) {
+        if (!testName.test(e.target.value)) {
+          this.newClient.name += ""
+          $("small.name").removeClass('d-none').addClass('d-block')
+          return
+        };
+        $("small.name").removeClass('d-block').addClass('d-none')
+      },
+      validateDoc(e) {
+        if (!testDoc.test(e.target.value)) {
+          this.newClient.phone += ""
+          $("small.doc").removeClass('d-none').addClass('d-block')
+          return
+        };
+        $("small.doc").removeClass('d-block').addClass('d-none')
       }
     }
   })

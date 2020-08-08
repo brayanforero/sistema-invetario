@@ -9,15 +9,17 @@ include_once './partials/nav.php';
   <div class="row justify-content-center align-items-center">
     <div class="col-md-8">
       <form @submit.prevent="sendData" class="card" id="newCategory">
-        <div id="alert" class="alert  p-2 text-center d-none"></div>
+        <div class="card-header bg-primary text-center text-light">
+          <span class="card-title h2 text-center">Registro de Categoria<p>
+        </div>
         <div class="card-body">
-          <p class="card-title h2 text-center">Registro de Categoria<p>
-              <div class="form-group d-flex justify-content-center align-items-center">
-                <input v-model="newCategory.name" placeholder="Nombre de la categoria" type="text" class="form-control">
-              </div>
-              <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block">Registrar</button>
-              </div>
+          <div class="form-group d-flex justify-content-center align-items-center">
+            <input v-model="newCategory.name" placeholder="Nombre de la categoria" type="text" class="form-control">
+          </div>
+          <div class="form-group">
+            <div id="alert" class="alert  p-2 text-center d-none"></div>
+            <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+          </div>
         </div>
       </form>
     </div>
