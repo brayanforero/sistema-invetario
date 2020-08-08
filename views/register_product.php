@@ -9,37 +9,47 @@ include_once './partials/nav.php';
   <div class="row justify-content-center align-items-center">
     <div class="col-md-8">
       <form @submit.prevent="sendData" class="card" id="newProduct">
-        <div id="alert" class="alert  p-2 text-center d-none"></div>
+        <div class="card-header bg-primary text-center text-light">
+          <span class="card-title h2 text-center">Registro de Producto<span>
+        </div>
         <div class="card-body">
-          <p class="card-title h2 text-center">Registro de Producto<p>
-              <div class="form-group d-flex justify-content-center align-items-center">
-                <input v-model="newProduct.name" placeholder="Nombre o descripcion del producto" type="text" class="form-control">
-              </div>
-              <div class="form-group">
-                <select class="form-control" v-model="newProduct.provider">
-                  <option v-for="p in providerOpt" :value="p.id">{{p.name}}</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <select class="form-control" v-model="newProduct.category">
-                  <option v-for="c in categoriesOpt" :value="c.id">{{c.name}}</option>
-                </select>
-              </div>
-              <div class="form-group d-flex justify-content-center align-items-center">
-                <input v-model="newProduct.count" placeholder="Cantidad a registrar" type="number" class="form-control">
-              </div>
-              <div class="form-group d-flex justify-content-center align-items-center">
-                <input v-model="newProduct.shopPrice" placeholder="Precio de compra" type="number" step="0.25" class="form-control">
+          <div class="form-group">
+            <label for="productName">Nombre o descripcion del producto:</label>
+            <input required id="productName" v-model="newProduct.name" type="text" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="provider">Selecione un provedor:</label>
+            <select id="provider" class="form-control" v-model="newProduct.provider">
+              <option v-for="p in providerOpt" :value="p.id">{{p.name}}</option>
+              <option disabled v-show="providerOpt">No exiten provedores registrados</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="category">Seleccione una categoria:</label>
+            <select id="category" class="form-control" v-model="newProduct.category">
+              <option v-for="c in categoriesOpt" :value="c.id">{{c.name}}</option>
+              <option disabled v-show="categoriesOpt">No exiten categorias registradas</option>
+            </select>
+          </div>
+        </div>
+        <div class="card-footer" v-if="!isEnabled">
+          <div class="form-group">
+            <label for="count">Indique la cantidad para el stock:</label>
+            <input required id="count" name="stock" @change="validateStock($event)" v-model="newProduct.count" type="number" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="priceShop">Precio de compra:</label>
+            <input required name="priceShop" id="priceShop" @change="validateStock($event)" v-model="newProduct.shopPrice" type="number" step="0.25" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="priceSale">Precio de venta:</label>
+            <input id="priceSale" required name="priceSale" @change="validateStock($event)" v-model="newProduct.salePrice" type="number" step="0.25" class="form-control">
+          </div>
 
-              </div>
-              <div class="form-group d-flex justify-content-center align-items-center">
-                <input v-model="newProduct.salePrice" placeholder="Precio de venta" type="number" step="0.25" class="form-control">
-
-              </div>
-
-              <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block">Registrar</button>
-              </div>
+          <div class="form-group">
+            <div id="alert" class="alert  p-2 text-center d-none"></div>
+            <button :disabled="!providerOpt || !categoriesOpt" type="submit" class="btn btn-primary btn-block">Registrar</button>
+          </div>
         </div>
       </form>
     </div>
@@ -59,12 +69,17 @@ require_once "./partials/scripts.php"
         name: "",
         provider: "",
         category: "",
-        count: "",
-        shopPrice: "",
-        salePrice: ""
+        count: 1,
+        shopPrice: 0.25,
+        salePrice: 0.25
       },
       providerOpt: [],
       categoriesOpt: []
+    },
+    computed: {
+      isEnabled() {
+        return this.categoriesOpt && this.providerOpt ? true : false
+      }
     },
     methods: {
 
@@ -125,7 +140,6 @@ require_once "./partials/scripts.php"
           url: "/api/providers/get.php"
         })
         if (res.data.status >= 400) {
-          alert("Lo sentimos, no hemos podido cargar los provedores")
           return
         }
         this.providerOpt = res.data.data
@@ -136,6 +150,27 @@ require_once "./partials/scripts.php"
 
         this.categoriesOpt = cat.data.data
 
+      },
+      validateStock(e) {
+        if (e.target.value == 0) {
+          this.validateInputByName(e.target.name)
+        }
+      },
+      validateInputByName(name) {
+        switch (name) {
+          case "stock":
+            this.newProduct.count = 1
+            break;
+          case "priceShop":
+            this.newProduct.shopPrice = 0.25
+            break;
+          case "priceSale":
+            this.newProduct.salePrice = 0.25
+            break;
+          default:
+            console.log("Ha ocurrido un error");
+            break;
+        }
       }
     },
     created() {
