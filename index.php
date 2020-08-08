@@ -59,7 +59,7 @@ verifySession(); ?>
             </div>
             <div class="form-group">
               <div class="d-none alert text-center p-1">Procesando...</div>
-              <button @click="sale" class="btn btn-primary btn-block">Agregar Venta</button>
+              <button :disabled="!listClients || !listProducts || !isSelectedProduct" @click="sale" class="btn btn-primary btn-block">Agregar Venta</button>
             </div>
           </div>
         </div>
