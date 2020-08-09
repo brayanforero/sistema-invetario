@@ -10,13 +10,12 @@ include_once './partials/nav.php';
     <div v-show="!existsData" class="alert alert-danger col-12 text-center trans">
       <b>{{msgRes}}</b>
     </div>
-    <div class="col-md-3" v-for="(c,i) in clients">
+    <div class="col-12 col-md-4" v-for="(c,i) in clients">
       <div class="card shadow-sm">
         <div class="card-header bg-primary text-light">
-          <p class="h3 m-0">
+          <span class="h3 m-0">
             Cliente n°{{c.id}}
-          </p>
-          <button @click="deleteClient(c.id, i)" class="btn btn-danger"> <i class="fas fa-trash"></i></button>
+          </span>
         </div>
         <div class="card-body">
           <strong>Datos de personales</strong>
@@ -25,10 +24,10 @@ include_once './partials/nav.php';
           <hr>
 
           <strong>Contacto</strong>
-          <p><span>Correo:</span> {{c.email}} <i class="fas fa-at"></i></p>
-          <p><span>Telefono:</span> {{c.phone_number}} <i class="fas fa-phone"></i></p>
-          <p><span>Dirección:</span> {{c.address}}</p>
-
+          <p><span><i class="fas fa-envelope"></i> </span> {{c.email}}</p>
+          <p><span><i class="fas fa-phone"></i> </span> {{c.phone_number}}</p>
+          <p><span><i class="fas fa-building"></i></span> {{c.address}}</p>
+          <button @click="deleteClient(c.id, i)" class="btn btn-danger"> <i class="fas fa-trash"></i></button>
         </div>
       </div>
     </div>
@@ -61,17 +60,21 @@ require_once "./partials/scripts.php"
         }
         this.clients = res.data.data
       },
-      async deleteClient(id, i) {
-
-        console.log(id, i);
-        const res = await axios({
-          method: "GET",
-          url: `/api/client/delete.php?id=${id}`
+      deleteClient(id, i) {
+        bootbox.confirm(`Esta seguro de eliminar a ${this.clients[i].name}`, async result => {
+          if (result) {
+            const res = await axios({
+              method: "GET",
+              url: `/api/client/delete.php?id=${id}`
+            })
+            if (res.data.status == 200) {
+              bootbox.alert("Cliente eliminado con exito")
+              this.clients.splice(i, 1);
+              return
+            }
+            bootbox.alert(`${res.data.msg}`)
+          }
         })
-        console.log(res.data);
-        if (res.data.status == 200) {
-          this.clients.splice(i, 1);
-        }
       }
     },
     created() {

@@ -9,7 +9,6 @@ include_once './partials/nav.php';
   <div class="row justify-content-center align-items-center">
     <div class="col-md-8">
       <form @submit.prevent="sendData" class="card" id="newClient">
-        <div id="alert" class="alert  p-2 text-center d-none"></div>
         <div class="card-header bg-primary text-center text-light">
           <span class="card-title h2 text-center">Registro de Cliente</span>
         </div>
@@ -21,11 +20,10 @@ include_once './partials/nav.php';
             </select>
             <input required v-model="newClient.doc" placeholder="Cedula de identidad" type="text" class="form-control">
           </div>
-          <small class="doc text-danger d-none mb-3">Formato no válido, debe ingresar números entre 6 y 12 caractéres.</small>
+
           <div class="form-group">
             <input required v-model="newClient.name" placeholder="Nombre completo" type="text" class="form-control">
           </div>
-          <small class="name text-danger d-none mb-3">Formato no válido para un nombre</small>
           <div class="form-group d-flex justify-content-center align-items-center">
             <input required v-model="newClient.email" placeholder="Correo electrónico" type="email" class="form-control">
             <span class="text-warning ml-1">*</span>
@@ -34,13 +32,14 @@ include_once './partials/nav.php';
             <input required v-model="newClient.phone" placeholder="Número de telefono" type="text" class="form-control">
             <span class="text-warning ml-1">*</span>
           </div>
-          <small class="phone text-danger d-none mb-3">Formato no válido para un número de telefono</small>
+
           <div class="form-group d-flex justify-content-center align-items-center">
             <input required v-model="newClient.addr" placeholder="Dirección" type="text" class="form-control">
             <span class="phone text-warning ml-1">*</span>
           </div>
 
           <div class="form-group">
+            <div id="alert" class="alert  p-2 text-center d-none"></div>
             <button type="submit" class="btn btn-primary btn-block">Registrar</button>
           </div>
         </div>
