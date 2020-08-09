@@ -58,8 +58,8 @@ require_once "./partials/scripts.php"
 <script src="/public/js/vue.js"></script>
 <script>
   const id = document.querySelector("#id")
-  const testPhone = /[0-9]{11}/g
-  const testDoc = /[0-9]{6,12}/g
+  const testPhone = new RegExp(/[0-9]{11}/)
+  const testDoc = new RegExp(/[0-9]{6,8}/);
   const testName = /[aA-zZ]{3,12}/g
   const app = new Vue({
     el: "#app",
