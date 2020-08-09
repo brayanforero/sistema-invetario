@@ -18,9 +18,9 @@ include_once './partials/nav.php';
         <div class="card-body">
           <strong>Detalles del producto</strong>
           <p>{{p.name}}</p>
-          <p>Precio de compra: {{p.p_shop}} <span class="text-danger">Bs.S</span></p>
-          <p>Precio de venta: {{p.p_sale}} <span class="text-success">Bs.S</span></p>
-          <p>Cantidad disponible <span class="text-success">{{p.stock}}</span> </p>
+          <p>Precio de compra: {{p.p_shop}} $</p>
+          <p>Precio de venta: {{p.p_sale}} $</p>
+          <p>Cantidad disponible <span :class="{'text-success': p.stock > 10,'text-warning': p.stock >= 5 && p.stock <= 10, 'text-danger': p.stock < 5}">{{p.stock == 0 ? 'no disponbile': p.stock}}</span></p>
         </div>
         <div class="card-footer">
           <strong>Provedor</strong>

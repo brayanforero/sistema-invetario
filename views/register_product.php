@@ -21,18 +21,18 @@ include_once './partials/nav.php';
             <label for="provider">Selecione un provedor:</label>
             <select id="provider" class="form-control" v-model="newProduct.provider">
               <option v-for="p in providerOpt" :value="p.id">{{p.name}}</option>
-              <option disabled v-show="providerOpt">No exiten provedores registrados</option>
+              <option disabled v-show="providerOpt.length == 0">No exiten provedores registrados</option>
             </select>
           </div>
           <div class="form-group">
             <label for="category">Seleccione una categoria:</label>
-            <select id="category" class="form-control" v-model="newProduct.category">
+            <select @change="isEnabled = true" id="category" class="form-control" v-model="newProduct.category">
               <option v-for="c in categoriesOpt" :value="c.id">{{c.name}}</option>
-              <option disabled v-show="categoriesOpt">No exiten categorias registradas</option>
+              <option disabled v-show="categoriesOpt.length == 0">No exiten categorias registradas</option>
             </select>
           </div>
         </div>
-        <div class="card-footer" v-if="!isEnabled">
+        <div class="card-footer" v-show="isEnabled">
           <div class="form-group">
             <label for="count">Indique la cantidad para el stock:</label>
             <input required id="count" name="stock" @change="validateStock($event)" v-model="newProduct.count" type="number" class="form-control">
@@ -48,7 +48,7 @@ include_once './partials/nav.php';
 
           <div class="form-group">
             <div id="alert" class="alert  p-2 text-center d-none"></div>
-            <button :disabled="!providerOpt || !categoriesOpt" type="submit" class="btn btn-primary btn-block">Registrar</button>
+            <button type="submit" class="btn btn-primary btn-block">Registrar</button>
           </div>
         </div>
       </form>
@@ -74,13 +74,10 @@ require_once "./partials/scripts.php"
         salePrice: 0.25
       },
       providerOpt: [],
-      categoriesOpt: []
+      categoriesOpt: [],
+      isEnabled: false
     },
-    computed: {
-      isEnabled() {
-        return this.categoriesOpt && this.providerOpt ? true : false
-      }
-    },
+
     methods: {
 
       sendData() {
@@ -121,9 +118,9 @@ require_once "./partials/scripts.php"
             }
 
             $("#alert").addClass("alert-success").html(`<b>${res.msg}<b>`).removeClass("d-none")
-
             setInterval(() => {
               $("#alert").addClass("d-none").html("").removeClass("alert-success")
+              app.isEnabled = false
             }, 5000);
 
           },
