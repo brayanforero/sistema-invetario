@@ -18,12 +18,12 @@ include_once './partials/nav.php';
             <select required v-model="newUser.typeDoc" class="form-control w-25 mr-2" id="docSelect">
               <option value="V-">V</option>
               <option value="E-">E</option>
-              <input @keyup="validateDoc($event)" required v-model.lazy="newUser.doc" placeholder="Cedula de identidad" type="text" class="form-control">
+              <input required v-model="newUser.doc" placeholder="Cedula de identidad" type="text" class="form-control">
             </select>
           </div>
           <small class="doc text-danger d-none mb-3">Formato no válido, debe ingresar números entre 6 y 12 caractéres.</small>
           <div class="form-group">
-            <input required @keyup="validateName($event)" v-model.lazy="newUser.fullname" placeholder="Nombre de completo" type="text" class="form-control">
+            <input required v-model="newUser.fullname" placeholder="Nombre de completo" type="text" class="form-control">
           </div>
           <small class="name text-danger d-none mb-3">Formato no válido para un nombre</small>
           <div class="form-group">

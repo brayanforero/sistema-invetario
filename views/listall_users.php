@@ -16,13 +16,14 @@ include_once './partials/nav.php';
           <p class="h4 m-0 text-center">Usuario</p>
         </div>
         <div class="card-body">
-          <p>{{u.fname}}</p>
-          <p>{{u.doc}}</p>
-          <p>{{u.name}}</p>
-          <p>{{u.status == 1 ? 'activo' : 'dasabilitado'}}</p>
+          <p>Persona: <strong>{{u.fname}}</strong></p>
+          <p>Cedula: <strong>{{u.doc}}</strong></p>
+          <p>Nombre de usuario: <strong>{{u.name}}</strong></p>
+          <p>Estatus:
+            <strong :class="{'text-success': u.status == 1,'text-danger': u.status != 1}">{{u.status == 1 ? 'activo' : 'dasabilitado'}}</strong>
+          </p>
           <p>Registrado: {{u.created}}</p>
-          <!-- <p>Ultima Modificacion: {{u.last_date_update}}</p> -->
-          <button @click="changeStatusUser(u.status, u.id, i)" class="btn show-alert" :class="{'btn-warning': u.status == 1, 'btn-info': u.status != 1}">{{u.status == 1 ? 'Desactivar' : 'Activar'}}</button>
+          <button @click=" changeStatusUser(u.status, u.id, i)" class="btn show-alert" :class="{'btn-warning': u.status == 1, 'btn-info': u.status != 1}">{{u.status == 1 ? 'Deshabilitar' : 'Habilitar'}}</button>
         </div>
       </div>
     </div>
