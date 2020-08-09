@@ -19,11 +19,11 @@ include_once './partials/nav.php';
               <option value="V-">V</option>
               <option value="E-">E</option>
             </select>
-            <input @keyup="validateDoc($event)" required v-model="newClient.doc" placeholder="Cedula de identidad" type="text" class="form-control">
+            <input required v-model="newClient.doc" placeholder="Cedula de identidad" type="text" class="form-control">
           </div>
           <small class="doc text-danger d-none mb-3">Formato no válido, debe ingresar números entre 6 y 12 caractéres.</small>
           <div class="form-group">
-            <input @keyup="validateName($event)" required v-model="newClient.name" placeholder="Nombre completo" type="text" class="form-control">
+            <input required v-model="newClient.name" placeholder="Nombre completo" type="text" class="form-control">
           </div>
           <small class="name text-danger d-none mb-3">Formato no válido para un nombre</small>
           <div class="form-group d-flex justify-content-center align-items-center">
@@ -31,7 +31,7 @@ include_once './partials/nav.php';
             <span class="text-warning ml-1">*</span>
           </div>
           <div class="form-group d-flex justify-content-center align-items-center">
-            <input @keyup="validatePhone($event)" required v-model="newClient.phone" placeholder="Número de telefono" type="text" class="form-control">
+            <input required v-model="newClient.phone" placeholder="Número de telefono" type="text" class="form-control">
             <span class="text-warning ml-1">*</span>
           </div>
           <small class="phone text-danger d-none mb-3">Formato no válido para un número de telefono</small>
@@ -58,9 +58,9 @@ require_once "./partials/scripts.php"
 <script src="/public/js/vue.js"></script>
 <script>
   const id = document.querySelector("#id")
-  const testPhone = new RegExp(/[0-9]{11}/)
-  const testDoc = new RegExp(/[0-9]{6,8}/);
-  const testName = /[aA-zZ]{3,12}/g
+  // const testPhone = new RegExp(/[0-9]{11}/)
+  // const testDoc = new RegExp(/[0-9]{6,8}/);
+  // const testName = /[aA-zZ]{3,12}/g
   const app = new Vue({
     el: "#app",
     data: {
@@ -127,30 +127,30 @@ require_once "./partials/scripts.php"
         })
 
       },
-      validatePhone(e) {
-        if (!testPhone.test(e.target.value)) {
-          this.newClient.phone += ""
-          $("small.phone").removeClass('d-none').addClass('d-block')
-          return
-        };
-        $("small.phone").removeClass('d-block').addClass('d-none')
-      },
-      validateName(e) {
-        if (!testName.test(e.target.value)) {
-          this.newClient.name += ""
-          $("small.name").removeClass('d-none').addClass('d-block')
-          return
-        };
-        $("small.name").removeClass('d-block').addClass('d-none')
-      },
-      validateDoc(e) {
-        if (!testDoc.test(e.target.value)) {
-          this.newClient.phone += ""
-          $("small.doc").removeClass('d-none').addClass('d-block')
-          return
-        };
-        $("small.doc").removeClass('d-block').addClass('d-none')
-      }
+      // validatePhone(e) {
+      //   if (!testPhone.test(e.target.value)) {
+      //     this.newClient.phone += ""
+      //     $("small.phone").removeClass('d-none').addClass('d-block')
+      //     return
+      //   };
+      //   $("small.phone").removeClass('d-block').addClass('d-none')
+      // },
+      // validateName(e) {
+      //   if (!testName.test(e.target.value)) {
+      //     this.newClient.name += ""
+      //     $("small.name").removeClass('d-none').addClass('d-block')
+      //     return
+      //   };
+      //   $("small.name").removeClass('d-block').addClass('d-none')
+      // },
+      // validateDoc(e) {
+      //   if (!testDoc.test(e.target.value)) {
+      //     this.newClient.phone += ""
+      //     $("small.doc").removeClass('d-none').addClass('d-block')
+      //     return
+      //   };
+      //   $("small.doc").removeClass('d-block').addClass('d-none')
+      // }
     }
   })
 </script>

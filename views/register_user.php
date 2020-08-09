@@ -10,33 +10,37 @@ include_once './partials/nav.php';
     <div class="col-md-8">
       <form @submit.prevent="sendData" class="card" id="newUser">
         <div id="alert" class="alert  p-2 text-center d-none"></div>
+        <div class="card-header text-center text-light bg-primary">
+          <span class="card-title h2 text-center">Registro de Usuario<span>
+        </div>
         <div class="card-body">
-          <p class="card-title h2 text-center">Registro de Usuario<p>
-              <div class="form-group d-flex justify-content-center align-items-center">
-                <select required v-model="newUser.typeDoc" class="form-control w-25 mr-2" id="docSelect">
-                  <option value="V-">V</option>
-                  <option value="E-">E</option>
-                  <input required v-model="newUser.doc" placeholder="Cedula de identidad" type="text" class="form-control">
-                </select>
-              </div>
-              <div class="form-group">
-                <input v-model="newUser.fullname" placeholder="Nombre de completo" type="text" class="form-control">
-              </div>
-              <div class="form-group">
-                <input v-model="newUser.username" placeholder="Nombre de ususario" type="text" class="form-control">
-              </div>
-              <div class="form-group">
-                <input v-model="newUser.password" placeholder="Contraseña" type="password" class="form-control">
-              </div>
-              <div class="form-group">
-                <select v-model="newUser.role" class="form-control" id="role">
-                  <option value="ADMIN">Administrador</option>
-                  <option value="VENDOR">Vendedor</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block">Registrar</button>
-              </div>
+          <div class="form-group d-flex justify-content-center align-items-center">
+            <select required v-model="newUser.typeDoc" class="form-control w-25 mr-2" id="docSelect">
+              <option value="V-">V</option>
+              <option value="E-">E</option>
+              <input @keyup="validateDoc($event)" required v-model.lazy="newUser.doc" placeholder="Cedula de identidad" type="text" class="form-control">
+            </select>
+          </div>
+          <small class="doc text-danger d-none mb-3">Formato no válido, debe ingresar números entre 6 y 12 caractéres.</small>
+          <div class="form-group">
+            <input required @keyup="validateName($event)" v-model.lazy="newUser.fullname" placeholder="Nombre de completo" type="text" class="form-control">
+          </div>
+          <small class="name text-danger d-none mb-3">Formato no válido para un nombre</small>
+          <div class="form-group">
+            <input required v-model="newUser.username" placeholder="Nombre de ususario" type="text" class="form-control">
+          </div>
+          <div class="form-group">
+            <input required v-model="newUser.password" placeholder="Contraseña" type="password" class="form-control">
+          </div>
+          <div class="form-group">
+            <select v-model="newUser.role" class="form-control" id="role">
+              <option value="ADMIN">Administrador</option>
+              <option value="VENDOR">Vendedor</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+          </div>
         </div>
       </form>
     </div>
@@ -49,6 +53,8 @@ require_once "./partials/scripts.php"
 <script src="/public/js/vue.js"></script>
 <script>
   const id = document.querySelector("#id")
+  // const testDoc = new RegExp(/[0-9]{6,8}/);
+  // const testName = /[aA-zZ]{3,12}/;
   const app = new Vue({
     el: "#app",
     data: {
@@ -105,10 +111,24 @@ require_once "./partials/scripts.php"
         })
 
       },
+      // validateDoc(e) {
+      //   if (!testDoc.test(e.target.value)) {
+      //     this.newUser.doc += ""
+      //     $("small.doc").removeClass('d-none').addClass('d-block')
+      //     return
+      //   };
+      //   $("small.doc").removeClass('d-block').addClass('d-none')
+      // },
+      // validateName(e) {
+      //   if (!testName.test(e.target.value)) {
+      //     this.newUser.fullname += ""
+      //     $("small.name").removeClass('d-none').addClass('d-block')
+      //     return
+      //   };
+      //   $("small.name").removeClass('d-block').addClass('d-none')
+      // }
     },
-    created() {
 
-    }
   })
 </script>
 </body>
