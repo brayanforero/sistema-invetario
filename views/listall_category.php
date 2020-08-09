@@ -11,17 +11,9 @@ include_once './partials/nav.php';
       <b>{{msgRes}}</b>
     </div>
     <div class="col-12 col-md-6 mb-3" v-for="c in categories">
-      <div class="card shadow-sm">
-        <div class="card-header bg-primary text-light">
-          <p class="h4 m-0 text-center">Categoria</p>
-        </div>
-        <div class="card-body">
-          <p>{{c.name}}</p>
-          <p>Registrada: {{c.date_created}}</p>
-          <p>Ultima Modificacion: {{c.last_date_update}}</p>
-          <hr>
-          <strong>Usuario</strong>
-          <p>{{c.user}}</p>
+      <div class="card rounded shadow-sm">
+        <div :class="{'bg-info': c.id %2 != 0, 'bg-primary': c.id %2 == 0}" class="card-body text-center text-light">
+          <span class="h6 m-0 text-center">{{c.name}}</span>
         </div>
       </div>
     </div>
