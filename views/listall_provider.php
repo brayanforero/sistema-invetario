@@ -10,11 +10,10 @@ include_once './partials/nav.php';
     <div v-show="!existsData" class="alert alert-danger col-12 text-center trans">
       <b>{{msgRes}}</b>
     </div>
-    <div class="col-md-3" v-for="(p,i) in providers">
+    <div class="col-12 col-md-4" v-for="(p,i) in providers">
       <div class="card shadow-sm">
         <div class="card-header bg-primary text-light">
           <p class="h3 m-0">Provedor n°{{p.id}}</p>
-          <button class="btn btn-primary" @click="deleteProvider(p.id, i)"><i class="fas fa-trash"></i></button>
         </div>
         <div class="card-body">
           <strong>Datos de personales</strong>
@@ -23,10 +22,10 @@ include_once './partials/nav.php';
           <hr>
 
           <strong>Contacto</strong>
-          <p><span>Correo:</span> {{p.email}} <i class="fas fa-at"></i></p>
-          <p><span>Telefono:</span> {{p.phone_number}} <i class="fas fa-phone"></i></p>
-          <p><span>Dirección:</span> {{p.address}}</p>
-
+          <p><span><i class="fas fa-envelope"></i></span> {{p.email}}</p>
+          <p><span><i class="fas fa-phone"></i></span> {{p.phone_number}}</p>
+          <p><span><i class="fas fa-building"></i></span> {{p.address}}</p>
+          <button class="btn btn-danger" @click="deleteProvider(p.id, i)"><i class="fas fa-trash"></i></button>
         </div>
       </div>
     </div>
@@ -59,16 +58,22 @@ require_once "./partials/scripts.php"
         }
         this.providers = res.data.data
       },
-      async deleteProvider(id, i) {
-        const res = await axios({
-          method: "GET",
-          url: `/api/providers/delete.php?id=${id}`
+      deleteProvider(id, i) {
+
+        bootbox.confirm(`Esta seguro que desesa eliminar a ${this.providers[i].name}`, async result => {
+          const res = await axios({
+            method: "GET",
+            url: `/api/providers/delete.php?id=${id}`
+          })
+
+          if (res.data.status == 200) {
+            bootbox.alert("Provedor elinimando con exito")
+            this.providers.splice(i, 1)
+            return
+          }
+          bootbox.alert(`${res.data.msg}`)
         })
-        console.log(res.data);
-        if (res.data.status == 200) {
-          this.providers.splice(i, 1)
-          return
-        }
+
       }
     },
     created() {

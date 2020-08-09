@@ -1,9 +1,10 @@
 <?php
 
 // RETURNA UN JSON CON O SIN DATA PARA EL VISTA
-function printResJson($code, $msg, $data = null){
+function printResJson($code, $msg, $data = null)
+{
   $res = [];
-  if (!$data) {  
+  if (!$data) {
     $res['status'] = $code;
     $res['msg'] = $msg;
   } else {
@@ -17,10 +18,14 @@ function printResJson($code, $msg, $data = null){
 }
 
 // RETORNA EL MENSAJE PERSONALIDADO DE ERROR A LA VISTA
-function getMessageCodeError($array) {
+function getMessageCodeError($array)
+{
   switch ($array[1]) {
     case 1062:
       printResJson(404, 'Error: Registro existente');
+      break;
+    case 1451:
+      printResJson(404, 'Error: No se puede eliminar un registro que este asociado a otro.');
       break;
     default:
       printResJson(404, $array[2]);
