@@ -21,11 +21,11 @@ include_once './partials/nav.php';
             </select>
             <input @keyup="validateDoc($event)" required v-model="newClient.doc" placeholder="Cedula de identidad" type="text" class="form-control">
           </div>
-          <small class="doc text-danger d-none mb-3">Formato no válido, debes ingresar solo números min 6 max 12</small>
+          <small class="doc text-danger d-none mb-3">Formato no válido, debe ingresar números entre 6 y 12 caractéres.</small>
           <div class="form-group">
             <input @keyup="validateName($event)" required v-model="newClient.name" placeholder="Nombre completo" type="text" class="form-control">
           </div>
-          <small class="name text-danger d-none mb-3">Formato no inválido para un nombre </small>
+          <small class="name text-danger d-none mb-3">Formato no válido para un nombre</small>
           <div class="form-group d-flex justify-content-center align-items-center">
             <input required v-model="newClient.email" placeholder="Correo electrónico" type="email" class="form-control">
             <span class="text-warning ml-1">*</span>
@@ -34,7 +34,7 @@ include_once './partials/nav.php';
             <input @keyup="validatePhone($event)" required v-model="newClient.phone" placeholder="Número de telefono" type="text" class="form-control">
             <span class="text-warning ml-1">*</span>
           </div>
-          <small class="phone text-danger d-none mb-3">El numero no debe poseer letras y debe tener 11 caractéres</small>
+          <small class="phone text-danger d-none mb-3">Formato no válido para un número de telefono</small>
           <div class="form-group d-flex justify-content-center align-items-center">
             <input required v-model="newClient.addr" placeholder="Dirección" type="text" class="form-control">
             <span class="phone text-warning ml-1">*</span>
@@ -60,7 +60,7 @@ require_once "./partials/scripts.php"
   const id = document.querySelector("#id")
   const testPhone = /[0-9]{11}/g
   const testDoc = /[0-9]{6,12}/g
-  const testName = /[aA-zZ]{3,50}/g
+  const testName = /[aA-zZ]{3,12}/g
   const app = new Vue({
     el: "#app",
     data: {
