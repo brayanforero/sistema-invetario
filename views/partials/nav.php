@@ -14,9 +14,11 @@
         <a class="nav-link" href="/"> <i class="fas fa-cart-plus h5 m-0"></i> Nueva Venta!</a>
       </li>
       <!-- VENTAS -->
-      <li class="nav-item">
-        <a class="nav-link" href="/views/listall_sales.php"> <i class="fas fa-search-dollar h5 m-0"></i> Ventas</a>
-      </li>
+      <?php if ($_SESSION['access_system']['role'] === 'ADMIN') : ?>
+        <li class="nav-item">
+          <a class="nav-link" href="/views/listall_sales.php"> <i class="fas fa-search-dollar h5 m-0"></i> Ventas</a>
+        </li>
+      <?php endif; ?>
       <!-- ALMACEN -->
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="itemProductos" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -45,7 +47,6 @@
           <div class="dropdown-menu" aria-labelledby="itemProvedor">
             <a class="dropdown-item" href="/views/listall_provider.php">Lista Completa </i></a>
             <a class="dropdown-item" href="/views/register_provider.php"> Registrar Nuevo</a>
-            <a class="dropdown-item" href="/views/search_provider.php">Consultar Información Detallada </a>
           </div>
         </li>
       <?php endif; ?>
@@ -60,9 +61,6 @@
             <a class="dropdown-item" href="/views/listall_client.php">Lista Completa </i></a>
           <?php endif; ?>
           <a class="dropdown-item" href="/views/register_client.php"> Registrar Nuevo</a>
-          <?php if ($_SESSION['access_system']['role'] === 'ADMIN') : ?>
-            <a class="dropdown-item" href="/views/search_client.php">Consultar Información Detallada </a>
-          <?php endif; ?>
         </div>
       </li>
       <!-- USUARIOS -->
