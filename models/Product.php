@@ -161,4 +161,27 @@ class Product extends Connection
 
     printResJson(404, "No se existen datos registrados");
   }
+
+  public function updateStock($id, $stock){
+    $id_P = intval($id);
+    $stock_N = intval($stock);
+
+    parent::getConnection();
+    $ps = $this->link->prepare("UPDATE products SET count = count + :stock  WHERE id_product = :id LIMIT 1");
+
+    $ps->bindParam(":stock", $stock_N, PDO::PARAM_INT);
+    $ps->bindParam(":id", $id_P, PDO::PARAM_INT);
+    $rs = $ps->execute();
+    parent::clearConnection();
+    $ms = $ps->errorInfo();
+
+    if ($ms[1]) {
+      getMessageCodeError($ms);
+      return;
+    }
+
+    $rs
+      ? printResJson(200, "Stock actulizado con exito")
+      : printResJson(500, "No se pudo completar la operacion");
+  }
 }
