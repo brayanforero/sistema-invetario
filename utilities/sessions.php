@@ -23,6 +23,15 @@ function verifySession(){
     return;
   } 
 }
+
+function verifySessionBackup(){
+  session_start();
+  if ( empty($_SESSION) || empty($_SESSION['access_system']) ) {
+    return false;
+  }
+  
+  return true;
+}
 // VERFICA SI NO HAY UNA SESSION ACTIVA PARA SE LOGUEE
 function sessionExists(){
   session_start();

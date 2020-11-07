@@ -75,6 +75,14 @@
           </div>
         </li>
       <?php endif; ?>
+      <!-- USUARIOS -->
+      <?php if ($_SESSION['access_system']['role'] === 'ADMIN') : ?>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" target="_black" href="/backup.php"> 
+            <i class="fas fa-file-download h5 m-0"></i> Respaldar Base de Datos
+          </a>
+        </li>
+      <?php endif; ?>
       <!-- USUARIO -->
       <li class="nav-item dropdown">
         <!-- SI ES ADMINISTRADOR -->
