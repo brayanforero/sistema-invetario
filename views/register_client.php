@@ -18,7 +18,7 @@ include_once './partials/nav.php';
               <option value="V-">V</option>
               <option value="E-">E</option>
             </select>
-            <input required v-model="newClient.doc" placeholder="Cedula de identidad" type="text" class="form-control">
+            <input required id="doc" v-model="newClient.doc" placeholder="Cedula de identidad" type="text" class="form-control">
           </div>
 
           <div class="form-group">
@@ -29,7 +29,7 @@ include_once './partials/nav.php';
             <span class="text-warning ml-1">*</span>
           </div>
           <div class="form-group d-flex justify-content-center align-items-center">
-            <input required v-model="newClient.phone" placeholder="Número de telefono" type="text" class="form-control">
+            <input required id="phone" v-model="newClient.phone" placeholder="Número de telefono" type="text" class="form-control">
             <span class="text-warning ml-1">*</span>
           </div>
 
@@ -57,9 +57,6 @@ require_once "./partials/scripts.php"
 <script src="/public/js/vue.js"></script>
 <script>
   const id = document.querySelector("#id")
-  // const testPhone = new RegExp(/[0-9]{11}/)
-  // const testDoc = new RegExp(/[0-9]{6,8}/);
-  // const testName = /[aA-zZ]{3,12}/g
   const app = new Vue({
     el: "#app",
     data: {
@@ -126,30 +123,21 @@ require_once "./partials/scripts.php"
         })
 
       },
-      // validatePhone(e) {
-      //   if (!testPhone.test(e.target.value)) {
-      //     this.newClient.phone += ""
-      //     $("small.phone").removeClass('d-none').addClass('d-block')
-      //     return
-      //   };
-      //   $("small.phone").removeClass('d-block').addClass('d-none')
-      // },
-      // validateName(e) {
-      //   if (!testName.test(e.target.value)) {
-      //     this.newClient.name += ""
-      //     $("small.name").removeClass('d-none').addClass('d-block')
-      //     return
-      //   };
-      //   $("small.name").removeClass('d-block').addClass('d-none')
-      // },
-      // validateDoc(e) {
-      //   if (!testDoc.test(e.target.value)) {
-      //     this.newClient.phone += ""
-      //     $("small.doc").removeClass('d-none').addClass('d-block')
-      //     return
-      //   };
-      //   $("small.doc").removeClass('d-block').addClass('d-none')
-      // }
+    }
+  })
+
+
+  document.querySelector("#phone").addEventListener("keyup", (e) => {
+    if (/\D/g.test(e.target.value)) {
+      e.target.value = ''
+      return
+    }
+  })
+
+  document.querySelector("#doc").addEventListener("keyup", (e) => {
+    if (/\D/g.test(e.target.value)) {
+      e.target.value = ''
+      return
     }
   })
 </script>

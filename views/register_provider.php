@@ -18,7 +18,7 @@ include_once './partials/nav.php';
                   <option value="E-">E</option>
                   <option value="J-">J</option>
                 </select>
-                <input required v-model="newProvider.doc" placeholder="Cedula o documento fiscal" type="text" class="form-control">
+                <input required id="doc" v-model="newProvider.doc" placeholder="Cedula o documento fiscal" type="text" class="form-control">
               </div>
               <div class="form-group">
                 <input required v-model="newProvider.name" placeholder="Nombre de la persona o empresa" type="text" class="form-control">
@@ -28,7 +28,7 @@ include_once './partials/nav.php';
                 <span class="text-warning ml-1">*</span>
               </div>
               <div class="form-group d-flex justify-content-center align-items-center">
-                <input v-model="newProvider.phone" placeholder="Número de telefono" type="text" class="form-control">
+                <input required id="phone" v-model="newProvider.phone" placeholder="Número de telefono" type="text" class="form-control">
                 <span class="text-warning ml-1">*</span>
               </div>
               <div class="form-group d-flex justify-content-center align-items-center">
@@ -117,6 +117,20 @@ require_once "./partials/scripts.php"
         })
 
       }
+    }
+  })
+
+  document.querySelector("#phone").addEventListener("keyup", (e) => {
+    if (/\D/g.test(e.target.value)) {
+      e.target.value = ''
+      return
+    }
+  })
+
+  document.querySelector("#doc").addEventListener("keyup", (e) => {
+    if (/\D/g.test(e.target.value)) {
+      e.target.value = ''
+      return
     }
   })
 </script>
