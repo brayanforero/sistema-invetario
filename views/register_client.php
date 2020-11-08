@@ -18,7 +18,7 @@ include_once './partials/nav.php';
               <option value="V-">V</option>
               <option value="E-">E</option>
             </select>
-            <input required id="doc" v-model="newClient.doc" placeholder="Cedula de identidad" type="text" class="form-control">
+            <input required id="doc" v-model="newClient.doc" placeholder="Cedula de identidad" type="text" class="form-control" minlength="8" maxlength="16" >
           </div>
 
           <div class="form-group">
@@ -30,7 +30,7 @@ include_once './partials/nav.php';
           </div>
           <div class="form-group d-flex justify-content-center align-items-center">
             <input required id="phone" v-model="newClient.phone" placeholder="Número de telefono" type="text" class="form-control">
-            <span class="text-warning ml-1">*</span>
+            <span class="text-warning ml-1" minlength="8" maxlength="16">*</span>
           </div>
 
           <div class="form-group d-flex justify-content-center align-items-center">
