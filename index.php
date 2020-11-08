@@ -22,14 +22,13 @@ verifySession(); ?>
   <?php include_once './views/partials/nav.php' ?>
   <div class="container" id="app">
     <div class="row justify-content-center">
-      <div class="col-md-8">
+      <div class="col-md-6">
 
         <div class="card">
           <div class="card-header bg-primary p-4 text-center">
             <span class="h4 m-0 text-light ">Agregar Venta <i class="fas fa-shopping-cart"></i></span>
           </div>
           <div class="card-body">
-
             <div class="form-group">
               <label for="client">Seleccione un Cliente</label>
               <select v-model.lazy="clientSelect" @change="onSelectClient($event)" class="form-control" name="#" id="client">
@@ -44,7 +43,12 @@ verifySession(); ?>
                 <option v-if="!listProducts" disabled>No hay productos registrados</option>
               </select>
             </div>
-            <div v-show="isSelectedProduct" class="form-group">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div v-show="isSelectedProduct" class="card p-4">
+          <div  class="form-group">
               <label for="product_count">Indique la cantidad</label>
               <input @change="validateNumber($event)" v-model.lazy="countProduct" class="form-control mb-2 w-75" id="product_count" type="number">
               <span class="small" :class="[colorStock]">Disponible: {{productSelected.stock}}</span>
@@ -61,7 +65,6 @@ verifySession(); ?>
               <div class="d-none alert text-center p-1">Procesando...</div>
               <button :disabled="!listClients || !listProducts || !isSelectedProduct" @click="sale" class="btn btn-primary btn-block">Agregar Venta</button>
             </div>
-          </div>
         </div>
       </div>
     </div>

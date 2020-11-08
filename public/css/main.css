@@ -26,3 +26,10 @@ body {
 .display-4 {
   font-size: 4rem;
 }
+
+.footer-bottom {
+  position: fixed;
+  display: block;
+  width: 100%;
+  bottom: 0;
+}
