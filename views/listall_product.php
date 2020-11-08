@@ -21,7 +21,9 @@ include_once './partials/nav.php';
           <p>Precio de compra: {{p.p_shop}} $</p>
           <p>Precio de venta: {{p.p_sale}} $</p>
           <p>Cantidad disponible <span :class="{'text-success': p.stock > 10,'text-warning': p.stock >= 5 && p.stock <= 10, 'text-danger': p.stock < 5}">{{p.stock == 0 ? 'no disponbile': p.stock}}</span></p>
+          <?php if ($_SESSION['access_system']['role'] === 'ADMIN') : ?>
           <button class="btn btn-primary" @click="updateStock(p.id, i)">Sumar stock <i class="fas fa-plus-circle"></i></button>
+          <?php endif?>
         </div>
         <div class="card-footer">
           <strong>Provedor</strong>
