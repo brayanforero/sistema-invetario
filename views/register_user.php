@@ -27,7 +27,7 @@ include_once './partials/nav.php';
           </div>
           <small class="name text-danger d-none mb-3">Formato no válido para un nombre</small>
           <div class="form-group">
-            <input required v-model="newUser.username" placeholder="Nombre de ususario" type="text" class="form-control">
+            <input required v-model="newUser.username" placeholder="Nombre de usuario" type="text" class="form-control">
           </div>
           <div class="form-group">
             <input required v-model="newUser.password" placeholder="Contraseña" type="password" class="form-control">
