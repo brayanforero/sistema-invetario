@@ -118,7 +118,7 @@ require_once "./partials/scripts.php"
             }
 
             $("#alert").addClass("alert-success").html(`<b>${res.msg}<b>`).removeClass("d-none")
-            setInterval(() => {
+            setTimeout(() => {
               $("#alert").addClass("d-none").html("").removeClass("alert-success")
               app.isEnabled = false
             }, 5000);
