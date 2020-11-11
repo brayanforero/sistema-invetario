@@ -23,7 +23,7 @@ include_once './partials/nav.php';
           </div>
           <small class="doc text-danger d-none mb-3">Formato no válido, debe ingresar números entre 6 y 12 caractéres.</small>
           <div class="form-group">
-            <input required v-model="newUser.fullname" placeholder="Nombre de completo" type="text" class="form-control">
+            <input required v-model="newUser.fullname" placeholder="Nombre completo" type="text" class="form-control">
           </div>
           <small class="name text-danger d-none mb-3">Formato no válido para un nombre</small>
           <div class="form-group">

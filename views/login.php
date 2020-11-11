@@ -35,7 +35,8 @@
         <!-- <p class="display-1 h-inherit bg-dark">Inventario Productos</i> </p>
        -->
         <div class="w-100 h-100 bg-alpha text-center">
-          <p class="display-4 text-white m-0 w-100 h-100 d-flex justify-content-center align-items-center">Inventario de Genericos</p>
+          <p class="display-4 text-white m-0 w-100 h-100 d-flex justify-content-center align-items-center">VEQUIMPLAST C.A  <span class="h6 mb-0 ml-3">Rif j-29962574-4</span></p>
+          
         </div>
       </div>
     </div>
