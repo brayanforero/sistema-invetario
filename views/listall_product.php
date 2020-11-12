@@ -67,38 +67,50 @@ require_once "./partials/scripts.php"
       updateStock(id, i){
         this.changeStock.id = id
         this.changeStock.i = i
-        bootbox.prompt({
-            title: `¿Cuanto deseas agregar de ${this.products[i].name}?`,
-            centerVertical: true,
-            callback: function(result){
-              app.changeStock.stock = result
-              if(result <= 0) {
+        
+        const dialog = bootbox.dialog({
+          title: `¿Cuanto deseas agregar de ${this.products[i].name}?`,
+          message: "<input id='inputModal' onkeyUp='valid()' class='form-control' type='textplaceholer='0'></input>",
+          size: 'medium',
+          centerVertical: true,
+          buttons: {
+            cancel: {
+              label: "Cancelar",
+              className: 'btn-secondary',
+            },
+            ok: {
+              label: "Ok",
+              className: 'btn-primary',
+              callback: function(){
+
+                if (document.querySelector("#inputModal").value <= 0 || document.querySelector("#inputModal").value == '') {
                 bootbox.alert("Ingresa una cantidad valida");
-                return 
+                 return 
+                }
+                $.ajax({
+                  type: "POST",
+                  url: "/api/product/changestock.php",
+                  data: {
+                    stock: document.querySelector("#inputModal").value,
+                    id: app.changeStock.id
+                  },
+                  dataType: "json",
+                  success: async (res) => {
+                    if (res.status >= 400) {
+                    bootbox.alert(res.msg)
+                      return
+                    } 
+                    bootbox.alert(res.msg)
+                      await app.getProduct();
+                    },
+                    falied: (err) => {
+                      console.log(err);
+                      bootbox.alert("Ha ocurrido un error al conectar con el servidor")
+                    }
+                })
               }
-              $.ajax({
-              type: "POST",
-              url: "/api/product/changestock.php",
-              data: {
-                stock: result,
-                id: app.changeStock.id
-              },
-              dataType: "json",
-              success: async (res) => {
-                
-                if (res.status >= 400) {
-                  bootbox.alert(res.msg)
-                  return
-                } 
-                bootbox.alert(res.msg)
-                await app.getProduct();
-              },
-              falied: (err) => {
-                console.log(err);
-                bootbox.alert("Ha ocurrido un error al conectar con el servidor")
-              }
-            })
             }
+          }
         });
       }
     },
@@ -106,6 +118,13 @@ require_once "./partials/scripts.php"
       this.getProduct()
     }
   })
+
+  const valid = () => {
+    if (/\D/g.test(document.querySelector("#inputModal").value)) {
+      document.querySelector("#inputModal").value = ""
+      return;
+    }
+  }
 </script>
 </body>
 
