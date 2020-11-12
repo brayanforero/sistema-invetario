@@ -184,4 +184,27 @@ class Product extends Connection
       ? printResJson(200, "Stock actulizado con exito")
       : printResJson(500, "No se pudo completar la operacion");
   }
+
+  public function changeName($id, $name){
+    $id_P = intval($id);
+    $name_N = cleanString($name);
+
+    parent::getConnection();
+    $ps = $this->link->prepare("UPDATE products SET product_name = :name WHERE id_product = :id LIMIT 1");
+
+    $ps->bindParam(":name", $name_N, PDO::PARAM_STR);
+    $ps->bindParam(":id", $id_P, PDO::PARAM_INT);
+    $rs = $ps->execute();
+    parent::clearConnection();
+    $ms = $ps->errorInfo();
+
+    if ($ms[1]) {
+      getMessageCodeError($ms);
+      return;
+    }
+
+    $rs
+      ? printResJson(200, "Nombre cambiado con exito")
+      : printResJson(500, "No se pudo completar la operacion");
+  }
 }

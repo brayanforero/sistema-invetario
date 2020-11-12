@@ -22,7 +22,8 @@ include_once './partials/nav.php';
           <p>Precio de venta: {{p.p_sale}} COP</p>
           <p>Cantidad disponible <span :class="{'text-success': p.stock > 10,'text-warning': p.stock >= 5 && p.stock <= 10, 'text-danger': p.stock < 5}">{{p.stock == 0 ? 'no disponbile': p.stock}}</span></p>
           <?php if ($_SESSION['access_system']['role'] === 'ADMIN') : ?>
-          <button class="btn btn-primary" @click="updateStock(p.id, i)">Sumar stock <i class="fas fa-plus-circle"></i></button>
+            <button class="btn btn-primary btn-sm" @click="changeName(p.id, i)">Cambiar Nombre <i class="fas fa-edit"></i></button>
+          <button class="btn btn-primary btn-sm" @click="updateStock(p.id, i)">Sumar stock <i class="fas fa-plus-circle"></i></button>
           <?php endif?>
         </div>
         <div class="card-footer">
@@ -70,7 +71,7 @@ require_once "./partials/scripts.php"
         
         const dialog = bootbox.dialog({
           title: `¿Cuanto deseas agregar de ${this.products[i].name}?`,
-          message: "<input id='inputModal' onkeyUp='valid()' class='form-control' type='textplaceholer='0'></input>",
+          message: "<input id='inputModalName' onkeyUp='valid()' class='form-control' type='textplaceholer='0'></input>",
           size: 'medium',
           centerVertical: true,
           buttons: {
@@ -112,6 +113,54 @@ require_once "./partials/scripts.php"
             }
           }
         });
+      },
+      changeName(id, i){
+        this.changeStock.id = id
+        this.changeStock.i = i
+        const dialog = bootbox.dialog({
+          title: `Ingresa un nombre`,
+          message: `<input id='inputModalName' value='${this.products[i].name}' class='form-control'></input>`,
+          size: 'medium',
+          centerVertical: true,
+          buttons: {
+            cancel: {
+              label: "Cancelar",
+              className: 'btn-secondary',
+            },
+            ok: {
+              label: "Ok",
+              className: 'btn-primary',
+              callback: function(){
+
+                if (document.querySelector("#inputModalName").value == '') {
+                bootbox.alert("Debes ingresar un nombre");
+                 return 
+                }
+                $.ajax({
+                  type: "POST",
+                  url: "/api/product/update.php",
+                  data: {
+                    name: document.querySelector("#inputModalName").value,
+                    id: app.changeStock.id
+                  },
+                  dataType: "json",
+                  success: async (res) => {
+                    if (res.status >= 400) {
+                    bootbox.alert(res.msg)
+                      return
+                    } 
+                    bootbox.alert(res.msg)
+                      await app.getProduct();
+                    },
+                    falied: (err) => {
+                      console.log(err);
+                      bootbox.alert("Ha ocurrido un error al conectar con el servidor")
+                    }
+                })
+              }
+            }
+          }
+        });
       }
     },
     created() {
@@ -119,7 +168,7 @@ require_once "./partials/scripts.php"
     }
   })
 
-  const valid = () => {
+  const valid = (id) => {
     if (/\D/g.test(document.querySelector("#inputModal").value)) {
       document.querySelector("#inputModal").value = ""
       return;
