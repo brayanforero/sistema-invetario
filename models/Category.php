@@ -83,7 +83,7 @@ class Category extends Connection
 
   public function update($id, $newName)
   {
-    $c_id = $id;
+    $c_id = intval($id);
     $n = cleanString($newName);
 
     parent::getConnection();
