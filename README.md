@@ -1,4 +1,5 @@
-**Vequimplat C.A**. [Preview 💻](http://testsweb.byethost13.com "Preview 💻")
+# Sistema de Inventario de Productos
+Sistema desarrollado para llevar el inventarios de los productos del establecimiento **Vequimplat C.A**. [Preview 💻](http://testsweb.byethost13.com "Preview 💻")
 
 ![Sistema de Inventario de Genericos](https://repository-images.githubusercontent.com/275797272/ea7a0380-a417-11eb-9da7-9bca6276c7ee "Sistema de Inventario de Genericos")
 # Stack 🖱
